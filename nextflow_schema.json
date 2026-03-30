@@ -518,6 +518,12 @@
                     "help_text": "Deduplication removes PCR duplicate reads after alignment. Specifying this option will skip this step, leaving duplicate reads in your data.\n\nNote that this is turned on automatically if `--rrbs` is specified.",
                     "fa_icon": "fas fa-fast-forward"
                 },
+                "umi": {
+                    "type": "boolean",
+                    "description": "Enable UMI-aware deduplication.",
+                    "help_text": "When set, enables UMI-aware deduplication. For Bismark workflows, adds the `--barcode` flag to `deduplicate_bismark`, which uses the UMI stored in the read name to distinguish duplicates. For bwa-meth/TAPS workflows, replaces Picard MarkDuplicates with `UmiAwareMarkDuplicatesWithMateCigar`, which reads the UMI from the `RX` BAM tag. UMIs must be embedded in read names or extracted to the `RX` tag prior to alignment.",
+                    "fa_icon": "fas fa-barcode"
+                },
                 "skip_fastqc": {
                     "type": "boolean",
                     "description": "Skip FastQC",

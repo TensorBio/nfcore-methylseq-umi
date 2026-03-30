@@ -1,0 +1,134 @@
+nextflow_pipeline {
+    name "Test Workflow main.nf - UMI Variants"
+    script "../main.nf"
+    config "./nextflow.config"
+    tag "cpu"
+    tag "umi"
+
+    // Test data: 850 SE + 850 PE read pairs generated from the methylseq test
+    // FASTQs (SRR389222 / Ecoli_10K_methylated) with 30 synthetic 14-mer UMIs
+    // (GTTCGGAACGTATC format, no separator) appended to each read name.
+    // Each of 30 UMIs appears ~29 times, giving a realistic duplicate rate.
+    //
+    // Bismark: deduplicate_bismark runs with --barcode, reading the UMI from
+    // the last colon-delimited field of the read name (pure ACGTN, no separator).
+    //
+    // bwameth (bwa-mem / TAPS): SAMTOOLS_UMITAGTRANSFER copies the UMI from
+    // the last colon-delimited field of each read name into the RX BAM tag,
+    // then PICARD_UMIMARKDUPLICATES runs UmiAwareMarkDuplicatesWithMateCigar
+    // using that tag for grouping.
+
+    def bismarkScenarios = [
+        [
+            description: "Params: bismark with UMI-aware deduplication (SE + PE)",
+            params: [:]
+        ],
+        [
+            description: "Params: bismark with UMI-aware deduplication and skip_trimming",
+            params: [ skip_trimming: true ]
+        ],
+        [
+            description: "Params: bismark with UMI-aware deduplication and cytosine_report",
+            params: [ cytosine_report: true ]
+        ]
+    ]
+
+    def bwamethScenarios = [
+        [
+            description: "Params: bwameth with UMI-aware deduplication (SE + PE)",
+            params: [ aligner: "bwameth" ]
+        ],
+        [
+            description: "Params: bwameth with UMI-aware deduplication and skip_trimming",
+            params: [ aligner: "bwameth", skip_trimming: true ]
+        ],
+        [
+            description: "Params: bwameth (bwa-mem2) with UMI-aware deduplication",
+            params: [ aligner: "bwameth", use_mem2: true ]
+        ]
+    ]
+
+    def getStandardAssertionData = { outputDir ->
+        def stable_name = getAllFilesFromDir(outputDir, relative: true, includeDir: true, ignore: ['pipeline_info/*.{html,json,txt}'])
+        def stable_path = getAllFilesFromDir(outputDir, ignoreFile: 'tests/.nftignore')
+        def bam_files   = getAllFilesFromDir(outputDir, include: ['**/*.bam'])
+
+        return [
+            removeNextflowVersion("${outputDir}/pipeline_info/nf_core_methylseq_software_mqc_versions.yml"),
+            stable_name,
+            stable_path,
+            bam_files.collect { file -> [ file.getName(), bam(file.toString()).getReadsMD5() ] }
+        ]
+    }
+
+    // --- Bismark UMI tests ---
+    // BISMARK_DEDUPLICATE receives --barcode via ext.args (set in
+    // conf/modules/bismark_deduplicate.config when params.umi = true),
+    // causing it to use the UMI in the read name to group duplicates.
+
+    bismarkScenarios.each { scenario ->
+        test(scenario.description) {
+            when {
+                params {
+                    outdir = "${outputDir}"
+                    input  = "${projectDir}/assets/samplesheet_umi.csv"
+                    umi    = true
+                    scenario.params.each { key, value -> delegate."$key" = value }
+                }
+            }
+
+            then {
+                def procs = workflow.trace.succeeded().collect { it.name }
+
+                assertAll(
+                    { assert workflow.success },
+                    // Bismark deduplication must have run
+                    { assert procs.any { it.contains('BISMARK_DEDUPLICATE') } },
+                    { assert snapshot(
+                        workflow.trace.succeeded().size(),
+                        *getStandardAssertionData(params.outdir)
+                    ).match() }
+                )
+            }
+        }
+    }
+
+    // --- bwameth UMI tests (covers bwa-mem / TAPS workflow) ---
+    // PICARD_UMIMARKDUPLICATES must run; PICARD_MARKDUPLICATES must not.
+    // umi_metrics.txt is produced even when RX tags are absent (Picard logs
+    // a warning and falls back to coordinate-only deduplication in that case).
+
+    bwamethScenarios.each { scenario ->
+        test(scenario.description) {
+            when {
+                params {
+                    outdir = "${outputDir}"
+                    input  = "${projectDir}/assets/samplesheet_umi.csv"
+                    umi    = true
+                    scenario.params.each { key, value -> delegate."$key" = value }
+                }
+            }
+
+            then {
+                def procs = workflow.trace.succeeded().collect { it.name }
+
+                assertAll(
+                    { assert workflow.success },
+                    // Tag-transfer step must have run before Picard
+                    { assert procs.any  { it.contains('SAMTOOLS_UMITAGTRANSFER') } },
+                    // UMI-aware Picard tool must have run
+                    { assert procs.any  { it.contains('PICARD_UMIMARKDUPLICATES') } },
+                    // Standard MarkDuplicates must NOT have run
+                    { assert !procs.any { it.contains('PICARD_MARKDUPLICATES') && !it.contains('UMI') } },
+                    // UMI metrics files must have been produced
+                    { assert new File("${params.outdir}/bwameth/deduplicated/picard_metrics").listFiles()
+                            .any { it.name.endsWith('.umi_metrics.txt') } },
+                    { assert snapshot(
+                        workflow.trace.succeeded().size(),
+                        *getStandardAssertionData(params.outdir)
+                    ).match() }
+                )
+            }
+        }
+    }
+}
