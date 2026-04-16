@@ -1,0 +1,78 @@
+nextflow_pipeline {
+    name "Test Workflow main.nf - BWA-MEM (TAPS) UMI Variants"
+    script "../main.nf"
+    config "./nextflow.config"
+    tag "cpu"
+    tag "umi"
+
+    // Test data: 850 SE + 850 PE read pairs (same FASTQs as other UMI tests)
+    // with 30 synthetic 14-mer UMIs (GTTCGGAACGTATC format, no separator)
+    // appended as the last colon-delimited field of each read name.
+    //
+    // TAPS (bwamem aligner) deduplication path:
+    //   FASTQ_ALIGN_BWA
+    //   → PICARD_ADDORREPLACEREADGROUPS
+    //   → SAMTOOLS_UMITAGTRANSFER  (copies UMI from read name to RX BAM tag)
+    //   → PICARD_UMIMARKDUPLICATES (UmiAwareMarkDuplicatesWithMateCigar)
+    //   → SAMTOOLS_INDEX
+
+    def tapsUmiScenarios = [
+        [
+            description: "Params: bwamem | taps | umi (SE + PE)",
+            params: [:]
+        ],
+        [
+            description: "Params: bwamem | taps | umi | skip_trimming",
+            params: [ skip_trimming: true ]
+        ]
+    ]
+
+    def getStandardAssertionData = { outputDir ->
+        def stable_name = getAllFilesFromDir(outputDir, relative: true, includeDir: true, ignore: ['pipeline_info/*.{html,json,txt}'])
+        def stable_path = getAllFilesFromDir(outputDir, ignoreFile: 'tests/.nftignore')
+        def bam_files   = getAllFilesFromDir(outputDir, include: ['**/*.bam'])
+
+        return [
+            removeNextflowVersion("${outputDir}/pipeline_info/nf_core_methylseq_software_mqc_versions.yml"),
+            stable_name,
+            stable_path,
+            bam_files.collect { file -> [ file.getName(), bam(file.toString()).getReadsMD5() ] }
+        ]
+    }
+
+    tapsUmiScenarios.each { scenario ->
+        test(scenario.description) {
+            when {
+                params {
+                    outdir  = "${outputDir}"
+                    input   = "${projectDir}/assets/samplesheet_umi_taps.csv"
+                    aligner = "bwamem"
+                    taps    = true
+                    umi     = true
+                    scenario.params.each { key, value -> delegate."$key" = value }
+                }
+            }
+
+            then {
+                def procs = workflow.trace.succeeded().collect { it.name }
+
+                assertAll(
+                    { assert workflow.success },
+                    // UMI tag-transfer must have run
+                    { assert procs.any  { it.contains('SAMTOOLS_UMITAGTRANSFER') } },
+                    // UMI-aware Picard must have run
+                    { assert procs.any  { it.contains('PICARD_UMIMARKDUPLICATES') } },
+                    // Standard MarkDuplicates must NOT have run
+                    { assert !procs.any { it.contains('PICARD_MARKDUPLICATES') && !it.contains('UMI') } },
+                    // UMI metrics files must have been produced
+                    { assert new File("${params.outdir}/bwamem/deduplicated/picard_metrics").listFiles()
+                            .any { it.name.endsWith('.umi_metrics.txt') } },
+                    { assert snapshot(
+                        workflow.trace.succeeded().size(),
+                        *getStandardAssertionData(params.outdir)
+                    ).match() }
+                )
+            }
+        }
+    }
+}

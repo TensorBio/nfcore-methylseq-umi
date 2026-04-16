@@ -1,0 +1,5 @@
+sample,fastq_1,fastq_2,genome
+umi_sub1,/home/leila/.nextflow/assets/nf-core/methylseq/assets/test_data/umi_test_SE_sub1.fastq.gz,,
+umi_sub2,/home/leila/.nextflow/assets/nf-core/methylseq/assets/test_data/umi_test_SE_sub2.fastq.gz,,
+umi_sub3,/home/leila/.nextflow/assets/nf-core/methylseq/assets/test_data/umi_test_SE_sub3.fastq.gz,,
+umi_pe,/home/leila/.nextflow/assets/nf-core/methylseq/assets/test_data/umi_test_PE_R1.fastq.gz,/home/leila/.nextflow/assets/nf-core/methylseq/assets/test_data/umi_test_PE_R2.fastq.gz,

@@ -9,9 +9,6 @@
                 "BWAMETH_INDEX": {
                     "bwameth": "0.2.9"
                 },
-                "FASTQC": {
-                    "fastqc": "0.12.1"
-                },
                 "GUNZIP": {
                     "gunzip": 1.13
                 },
@@ -25,19 +22,13 @@
                     "picard": "3.3.0"
                 },
                 "SAMTOOLS_FLAGSTAT": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "SAMTOOLS_INDEX_ALIGNMENTS": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "SAMTOOLS_INDEX_DEDUPLICATED": {
-                    "samtools": 1.21
-                },
-                "SAMTOOLS_SORT": {
-                    "samtools": 1.21
-                },
-                "SAMTOOLS_STATS": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "SAMTOOLS_UMITAGTRANSFER": {
                     "samtools": 1.21
@@ -48,7 +39,19 @@
                     "pigz": 2.8
                 },
                 "Workflow": {
-                    "nf-core/methylseq": "v4.1.0"
+                    "nf-core/methylseq": "v4.2.0"
+                },
+                "FASTQC": {
+                    "fastqc": "0.12.1"
+                },
+                "MULTIQC": {
+                    "multiqc": 1.32
+                },
+                "SAMTOOLS_SORT": {
+                    "samtools": "1.22.1"
+                },
+                "SAMTOOLS_STATS": {
+                    "samtools": "1.22.1"
                 }
             },
             [
@@ -65,10 +68,8 @@
                 "bwameth/deduplicated/picard_metrics/umi_pe.markdup.sorted.UmiAwareMarkDuplicates.umi_metrics.txt",
                 "bwameth/deduplicated/picard_metrics/umi_se.markdup.sorted.UmiAwareMarkDuplicates.metrics.txt",
                 "bwameth/deduplicated/picard_metrics/umi_se.markdup.sorted.UmiAwareMarkDuplicates.umi_metrics.txt",
-                "bwameth/deduplicated/umi_pe.deduplicated.sorted.bam",
                 "bwameth/deduplicated/umi_pe.markdup.sorted.bam",
                 "bwameth/deduplicated/umi_pe.markdup.sorted.bam.bai",
-                "bwameth/deduplicated/umi_se.deduplicated.sorted.bam",
                 "bwameth/deduplicated/umi_se.markdup.sorted.bam",
                 "bwameth/deduplicated/umi_se.markdup.sorted.bam.bai",
                 "fastqc",
@@ -88,7 +89,6 @@
                 "multiqc",
                 "multiqc/bwameth",
                 "multiqc/bwameth/multiqc_data",
-                "multiqc/bwameth/multiqc_data/BETA-multiqc.parquet",
                 "multiqc/bwameth/multiqc_data/cutadapt_filtered_reads_plot.txt",
                 "multiqc/bwameth/multiqc_data/cutadapt_trimmed_sequences_plot_3_Counts.txt",
                 "multiqc/bwameth/multiqc_data/cutadapt_trimmed_sequences_plot_3_Obs_Exp.txt",
@@ -105,6 +105,7 @@
                 "multiqc/bwameth/multiqc_data/fastqc_top_overrepresented_sequences_table.txt",
                 "multiqc/bwameth/multiqc_data/llms-full.txt",
                 "multiqc/bwameth/multiqc_data/multiqc.log",
+                "multiqc/bwameth/multiqc_data/multiqc.parquet",
                 "multiqc/bwameth/multiqc_data/multiqc_citations.txt",
                 "multiqc/bwameth/multiqc_data/multiqc_cutadapt.txt",
                 "multiqc/bwameth/multiqc_data/multiqc_data.json",
@@ -117,6 +118,7 @@
                 "multiqc/bwameth/multiqc_data/multiqc_sources.txt",
                 "multiqc/bwameth/multiqc_data/picard_MarkIlluminaAdapters_histogram.txt",
                 "multiqc/bwameth/multiqc_data/picard_MeanQualityByCycle_histogram.txt",
+                "multiqc/bwameth/multiqc_data/picard_MeanQualityByCycle_histogram_1.txt",
                 "multiqc/bwameth/multiqc_data/picard_QualityScoreDistribution_histogram.txt",
                 "multiqc/bwameth/multiqc_data/picard_deduplication.txt",
                 "multiqc/bwameth/multiqc_data/samtools-flagstat-pct-table.txt",
@@ -129,7 +131,6 @@
                 "multiqc/bwameth/multiqc_plots/pdf/cutadapt_filtered_reads_plot-pct.pdf",
                 "multiqc/bwameth/multiqc_plots/pdf/cutadapt_trimmed_sequences_plot_3_Counts.pdf",
                 "multiqc/bwameth/multiqc_plots/pdf/cutadapt_trimmed_sequences_plot_3_Obs_Exp.pdf",
-                "multiqc/bwameth/multiqc_plots/pdf/fastqc-status-check-heatmap.pdf",
                 "multiqc/bwameth/multiqc_plots/pdf/fastqc_adapter_content_plot.pdf",
                 "multiqc/bwameth/multiqc_plots/pdf/fastqc_overrepresented_sequences_plot.pdf",
                 "multiqc/bwameth/multiqc_plots/pdf/fastqc_per_base_n_content_plot.pdf",
@@ -153,7 +154,6 @@
                 "multiqc/bwameth/multiqc_plots/png/cutadapt_filtered_reads_plot-pct.png",
                 "multiqc/bwameth/multiqc_plots/png/cutadapt_trimmed_sequences_plot_3_Counts.png",
                 "multiqc/bwameth/multiqc_plots/png/cutadapt_trimmed_sequences_plot_3_Obs_Exp.png",
-                "multiqc/bwameth/multiqc_plots/png/fastqc-status-check-heatmap.png",
                 "multiqc/bwameth/multiqc_plots/png/fastqc_adapter_content_plot.png",
                 "multiqc/bwameth/multiqc_plots/png/fastqc_overrepresented_sequences_plot.png",
                 "multiqc/bwameth/multiqc_plots/png/fastqc_per_base_n_content_plot.png",
@@ -177,7 +177,6 @@
                 "multiqc/bwameth/multiqc_plots/svg/cutadapt_filtered_reads_plot-pct.svg",
                 "multiqc/bwameth/multiqc_plots/svg/cutadapt_trimmed_sequences_plot_3_Counts.svg",
                 "multiqc/bwameth/multiqc_plots/svg/cutadapt_trimmed_sequences_plot_3_Obs_Exp.svg",
-                "multiqc/bwameth/multiqc_plots/svg/fastqc-status-check-heatmap.svg",
                 "multiqc/bwameth/multiqc_plots/svg/fastqc_adapter_content_plot.svg",
                 "multiqc/bwameth/multiqc_plots/svg/fastqc_overrepresented_sequences_plot.svg",
                 "multiqc/bwameth/multiqc_plots/svg/fastqc_per_base_n_content_plot.svg",
@@ -199,6 +198,7 @@
                 "multiqc/bwameth/multiqc_report.html",
                 "pipeline_info",
                 "pipeline_info/nf_core_methylseq_software_mqc_versions.yml",
+                "pipeline_info/nf_core_methylseq_topic_versions.yml",
                 "trimgalore",
                 "trimgalore/fastqc",
                 "trimgalore/fastqc/umi_pe_1_val_1_fastqc.html",
@@ -215,9 +215,9 @@
             ],
             [
                 "umi_pe.flagstat:md5,e438ea265ac5931fca9d3fb7b14a906b",
-                "umi_pe.stats:md5,fb168411d73714de86f784058ff4fadf",
+                "umi_pe.stats:md5,8f12674a4ddcc10ed8ccdea28e262740",
                 "umi_se.flagstat:md5,88c3180be6c9614a872ff1720d16e6e0",
-                "umi_se.stats:md5,d60482caa42973293852c3a0ca8e2e58",
+                "umi_se.stats:md5,32e7ac747fddf20b2d11f061b56afa3d",
                 "umi_pe.mbias.txt:md5,fce04d733e066d0b933cedc602e2af81",
                 "umi_se.mbias.txt:md5,fce04d733e066d0b933cedc602e2af81",
                 "umi_pe.markdup.sorted_CpG.bedGraph:md5,fadfc8ec821db6b11663ae8225c56fb9",
@@ -243,6 +243,7 @@
                 "multiqc_samtools_stats.txt:md5,5cca816655259451a0aceb10508da458",
                 "picard_MarkIlluminaAdapters_histogram.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
                 "picard_MeanQualityByCycle_histogram.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
+                "picard_MeanQualityByCycle_histogram_1.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
                 "picard_QualityScoreDistribution_histogram.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
                 "picard_deduplication.txt:md5,feb039f094d33479fc529d0c984f2ddc",
                 "samtools-flagstat-pct-table.txt:md5,e5066cb727ebbe81d78552726b6deb90",
@@ -252,16 +253,8 @@
             ],
             [
                 [
-                    "umi_pe.deduplicated.sorted.bam",
-                    "366b14d8cf036aec1488c389ed4e425b"
-                ],
-                [
                     "umi_pe.markdup.sorted.bam",
                     "b4d1a738721ac336bb53c9c016468a07"
-                ],
-                [
-                    "umi_se.deduplicated.sorted.bam",
-                    "7fa6cdf181e251db29ea2d6f3e59c517"
                 ],
                 [
                     "umi_se.markdup.sorted.bam",
@@ -269,7 +262,7 @@
                 ]
             ]
         ],
-        "timestamp": "2026-03-27T11:22:23.377734813",
+        "timestamp": "2026-03-30T09:12:52.153397064",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "25.04.8"
@@ -285,9 +278,6 @@
                 "BWAMETH_INDEX": {
                     "bwameth": "0.2.9"
                 },
-                "FASTQC": {
-                    "fastqc": "0.12.1"
-                },
                 "GUNZIP": {
                     "gunzip": 1.13
                 },
@@ -301,19 +291,13 @@
                     "picard": "3.3.0"
                 },
                 "SAMTOOLS_FLAGSTAT": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "SAMTOOLS_INDEX_ALIGNMENTS": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "SAMTOOLS_INDEX_DEDUPLICATED": {
-                    "samtools": 1.21
-                },
-                "SAMTOOLS_SORT": {
-                    "samtools": 1.21
-                },
-                "SAMTOOLS_STATS": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "SAMTOOLS_UMITAGTRANSFER": {
                     "samtools": 1.21
@@ -324,7 +308,19 @@
                     "pigz": 2.8
                 },
                 "Workflow": {
-                    "nf-core/methylseq": "v4.1.0"
+                    "nf-core/methylseq": "v4.2.0"
+                },
+                "FASTQC": {
+                    "fastqc": "0.12.1"
+                },
+                "MULTIQC": {
+                    "multiqc": 1.32
+                },
+                "SAMTOOLS_SORT": {
+                    "samtools": "1.22.1"
+                },
+                "SAMTOOLS_STATS": {
+                    "samtools": "1.22.1"
                 }
             },
             [
@@ -341,10 +337,8 @@
                 "bwameth/deduplicated/picard_metrics/umi_pe.markdup.sorted.UmiAwareMarkDuplicates.umi_metrics.txt",
                 "bwameth/deduplicated/picard_metrics/umi_se.markdup.sorted.UmiAwareMarkDuplicates.metrics.txt",
                 "bwameth/deduplicated/picard_metrics/umi_se.markdup.sorted.UmiAwareMarkDuplicates.umi_metrics.txt",
-                "bwameth/deduplicated/umi_pe.deduplicated.sorted.bam",
                 "bwameth/deduplicated/umi_pe.markdup.sorted.bam",
                 "bwameth/deduplicated/umi_pe.markdup.sorted.bam.bai",
-                "bwameth/deduplicated/umi_se.deduplicated.sorted.bam",
                 "bwameth/deduplicated/umi_se.markdup.sorted.bam",
                 "bwameth/deduplicated/umi_se.markdup.sorted.bam.bai",
                 "fastqc",
@@ -364,7 +358,6 @@
                 "multiqc",
                 "multiqc/bwameth",
                 "multiqc/bwameth/multiqc_data",
-                "multiqc/bwameth/multiqc_data/BETA-multiqc.parquet",
                 "multiqc/bwameth/multiqc_data/cutadapt_filtered_reads_plot.txt",
                 "multiqc/bwameth/multiqc_data/cutadapt_trimmed_sequences_plot_3_Counts.txt",
                 "multiqc/bwameth/multiqc_data/cutadapt_trimmed_sequences_plot_3_Obs_Exp.txt",
@@ -381,6 +374,7 @@
                 "multiqc/bwameth/multiqc_data/fastqc_top_overrepresented_sequences_table.txt",
                 "multiqc/bwameth/multiqc_data/llms-full.txt",
                 "multiqc/bwameth/multiqc_data/multiqc.log",
+                "multiqc/bwameth/multiqc_data/multiqc.parquet",
                 "multiqc/bwameth/multiqc_data/multiqc_citations.txt",
                 "multiqc/bwameth/multiqc_data/multiqc_cutadapt.txt",
                 "multiqc/bwameth/multiqc_data/multiqc_data.json",
@@ -393,6 +387,7 @@
                 "multiqc/bwameth/multiqc_data/multiqc_sources.txt",
                 "multiqc/bwameth/multiqc_data/picard_MarkIlluminaAdapters_histogram.txt",
                 "multiqc/bwameth/multiqc_data/picard_MeanQualityByCycle_histogram.txt",
+                "multiqc/bwameth/multiqc_data/picard_MeanQualityByCycle_histogram_1.txt",
                 "multiqc/bwameth/multiqc_data/picard_QualityScoreDistribution_histogram.txt",
                 "multiqc/bwameth/multiqc_data/picard_deduplication.txt",
                 "multiqc/bwameth/multiqc_data/samtools-flagstat-pct-table.txt",
@@ -405,7 +400,6 @@
                 "multiqc/bwameth/multiqc_plots/pdf/cutadapt_filtered_reads_plot-pct.pdf",
                 "multiqc/bwameth/multiqc_plots/pdf/cutadapt_trimmed_sequences_plot_3_Counts.pdf",
                 "multiqc/bwameth/multiqc_plots/pdf/cutadapt_trimmed_sequences_plot_3_Obs_Exp.pdf",
-                "multiqc/bwameth/multiqc_plots/pdf/fastqc-status-check-heatmap.pdf",
                 "multiqc/bwameth/multiqc_plots/pdf/fastqc_adapter_content_plot.pdf",
                 "multiqc/bwameth/multiqc_plots/pdf/fastqc_overrepresented_sequences_plot.pdf",
                 "multiqc/bwameth/multiqc_plots/pdf/fastqc_per_base_n_content_plot.pdf",
@@ -429,7 +423,6 @@
                 "multiqc/bwameth/multiqc_plots/png/cutadapt_filtered_reads_plot-pct.png",
                 "multiqc/bwameth/multiqc_plots/png/cutadapt_trimmed_sequences_plot_3_Counts.png",
                 "multiqc/bwameth/multiqc_plots/png/cutadapt_trimmed_sequences_plot_3_Obs_Exp.png",
-                "multiqc/bwameth/multiqc_plots/png/fastqc-status-check-heatmap.png",
                 "multiqc/bwameth/multiqc_plots/png/fastqc_adapter_content_plot.png",
                 "multiqc/bwameth/multiqc_plots/png/fastqc_overrepresented_sequences_plot.png",
                 "multiqc/bwameth/multiqc_plots/png/fastqc_per_base_n_content_plot.png",
@@ -453,7 +446,6 @@
                 "multiqc/bwameth/multiqc_plots/svg/cutadapt_filtered_reads_plot-pct.svg",
                 "multiqc/bwameth/multiqc_plots/svg/cutadapt_trimmed_sequences_plot_3_Counts.svg",
                 "multiqc/bwameth/multiqc_plots/svg/cutadapt_trimmed_sequences_plot_3_Obs_Exp.svg",
-                "multiqc/bwameth/multiqc_plots/svg/fastqc-status-check-heatmap.svg",
                 "multiqc/bwameth/multiqc_plots/svg/fastqc_adapter_content_plot.svg",
                 "multiqc/bwameth/multiqc_plots/svg/fastqc_overrepresented_sequences_plot.svg",
                 "multiqc/bwameth/multiqc_plots/svg/fastqc_per_base_n_content_plot.svg",
@@ -475,6 +467,7 @@
                 "multiqc/bwameth/multiqc_report.html",
                 "pipeline_info",
                 "pipeline_info/nf_core_methylseq_software_mqc_versions.yml",
+                "pipeline_info/nf_core_methylseq_topic_versions.yml",
                 "trimgalore",
                 "trimgalore/fastqc",
                 "trimgalore/fastqc/umi_pe_1_val_1_fastqc.html",
@@ -491,9 +484,9 @@
             ],
             [
                 "umi_pe.flagstat:md5,e438ea265ac5931fca9d3fb7b14a906b",
-                "umi_pe.stats:md5,fb168411d73714de86f784058ff4fadf",
+                "umi_pe.stats:md5,8f12674a4ddcc10ed8ccdea28e262740",
                 "umi_se.flagstat:md5,88c3180be6c9614a872ff1720d16e6e0",
-                "umi_se.stats:md5,d60482caa42973293852c3a0ca8e2e58",
+                "umi_se.stats:md5,32e7ac747fddf20b2d11f061b56afa3d",
                 "umi_pe.mbias.txt:md5,fce04d733e066d0b933cedc602e2af81",
                 "umi_se.mbias.txt:md5,fce04d733e066d0b933cedc602e2af81",
                 "umi_pe.markdup.sorted_CpG.bedGraph:md5,fadfc8ec821db6b11663ae8225c56fb9",
@@ -519,6 +512,7 @@
                 "multiqc_samtools_stats.txt:md5,5cca816655259451a0aceb10508da458",
                 "picard_MarkIlluminaAdapters_histogram.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
                 "picard_MeanQualityByCycle_histogram.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
+                "picard_MeanQualityByCycle_histogram_1.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
                 "picard_QualityScoreDistribution_histogram.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
                 "picard_deduplication.txt:md5,feb039f094d33479fc529d0c984f2ddc",
                 "samtools-flagstat-pct-table.txt:md5,e5066cb727ebbe81d78552726b6deb90",
@@ -528,16 +522,8 @@
             ],
             [
                 [
-                    "umi_pe.deduplicated.sorted.bam",
-                    "366b14d8cf036aec1488c389ed4e425b"
-                ],
-                [
                     "umi_pe.markdup.sorted.bam",
                     "b4d1a738721ac336bb53c9c016468a07"
-                ],
-                [
-                    "umi_se.deduplicated.sorted.bam",
-                    "7fa6cdf181e251db29ea2d6f3e59c517"
                 ],
                 [
                     "umi_se.markdup.sorted.bam",
@@ -545,7 +531,7 @@
                 ]
             ]
         ],
-        "timestamp": "2026-03-27T11:21:27.194382706",
+        "timestamp": "2026-03-30T09:11:48.424905098",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "25.04.8"
@@ -561,9 +547,6 @@
                 "BWAMETH_INDEX": {
                     "bwameth": "0.2.9"
                 },
-                "FASTQC": {
-                    "fastqc": "0.12.1"
-                },
                 "GUNZIP": {
                     "gunzip": 1.13
                 },
@@ -577,25 +560,31 @@
                     "picard": "3.3.0"
                 },
                 "SAMTOOLS_FLAGSTAT": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "SAMTOOLS_INDEX_ALIGNMENTS": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "SAMTOOLS_INDEX_DEDUPLICATED": {
-                    "samtools": 1.21
-                },
-                "SAMTOOLS_SORT": {
-                    "samtools": 1.21
-                },
-                "SAMTOOLS_STATS": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "SAMTOOLS_UMITAGTRANSFER": {
                     "samtools": 1.21
                 },
                 "Workflow": {
-                    "nf-core/methylseq": "v4.1.0"
+                    "nf-core/methylseq": "v4.2.0"
+                },
+                "FASTQC": {
+                    "fastqc": "0.12.1"
+                },
+                "MULTIQC": {
+                    "multiqc": 1.32
+                },
+                "SAMTOOLS_SORT": {
+                    "samtools": "1.22.1"
+                },
+                "SAMTOOLS_STATS": {
+                    "samtools": "1.22.1"
                 }
             },
             [
@@ -612,10 +601,8 @@
                 "bwameth/deduplicated/picard_metrics/umi_pe.markdup.sorted.UmiAwareMarkDuplicates.umi_metrics.txt",
                 "bwameth/deduplicated/picard_metrics/umi_se.markdup.sorted.UmiAwareMarkDuplicates.metrics.txt",
                 "bwameth/deduplicated/picard_metrics/umi_se.markdup.sorted.UmiAwareMarkDuplicates.umi_metrics.txt",
-                "bwameth/deduplicated/umi_pe.deduplicated.sorted.bam",
                 "bwameth/deduplicated/umi_pe.markdup.sorted.bam",
                 "bwameth/deduplicated/umi_pe.markdup.sorted.bam.bai",
-                "bwameth/deduplicated/umi_se.deduplicated.sorted.bam",
                 "bwameth/deduplicated/umi_se.markdup.sorted.bam",
                 "bwameth/deduplicated/umi_se.markdup.sorted.bam.bai",
                 "fastqc",
@@ -635,7 +622,6 @@
                 "multiqc",
                 "multiqc/bwameth",
                 "multiqc/bwameth/multiqc_data",
-                "multiqc/bwameth/multiqc_data/BETA-multiqc.parquet",
                 "multiqc/bwameth/multiqc_data/fastqc-status-check-heatmap.txt",
                 "multiqc/bwameth/multiqc_data/fastqc_adapter_content_plot.txt",
                 "multiqc/bwameth/multiqc_data/fastqc_overrepresented_sequences_plot.txt",
@@ -649,6 +635,7 @@
                 "multiqc/bwameth/multiqc_data/fastqc_top_overrepresented_sequences_table.txt",
                 "multiqc/bwameth/multiqc_data/llms-full.txt",
                 "multiqc/bwameth/multiqc_data/multiqc.log",
+                "multiqc/bwameth/multiqc_data/multiqc.parquet",
                 "multiqc/bwameth/multiqc_data/multiqc_citations.txt",
                 "multiqc/bwameth/multiqc_data/multiqc_data.json",
                 "multiqc/bwameth/multiqc_data/multiqc_fastqc.txt",
@@ -660,6 +647,7 @@
                 "multiqc/bwameth/multiqc_data/multiqc_sources.txt",
                 "multiqc/bwameth/multiqc_data/picard_MarkIlluminaAdapters_histogram.txt",
                 "multiqc/bwameth/multiqc_data/picard_MeanQualityByCycle_histogram.txt",
+                "multiqc/bwameth/multiqc_data/picard_MeanQualityByCycle_histogram_1.txt",
                 "multiqc/bwameth/multiqc_data/picard_QualityScoreDistribution_histogram.txt",
                 "multiqc/bwameth/multiqc_data/picard_deduplication.txt",
                 "multiqc/bwameth/multiqc_data/samtools-flagstat-pct-table.txt",
@@ -668,7 +656,6 @@
                 "multiqc/bwameth/multiqc_data/samtools_alignment_plot.txt",
                 "multiqc/bwameth/multiqc_plots",
                 "multiqc/bwameth/multiqc_plots/pdf",
-                "multiqc/bwameth/multiqc_plots/pdf/fastqc-status-check-heatmap.pdf",
                 "multiqc/bwameth/multiqc_plots/pdf/fastqc_adapter_content_plot.pdf",
                 "multiqc/bwameth/multiqc_plots/pdf/fastqc_overrepresented_sequences_plot.pdf",
                 "multiqc/bwameth/multiqc_plots/pdf/fastqc_per_base_n_content_plot.pdf",
@@ -688,7 +675,6 @@
                 "multiqc/bwameth/multiqc_plots/pdf/samtools_alignment_plot-cnt.pdf",
                 "multiqc/bwameth/multiqc_plots/pdf/samtools_alignment_plot-pct.pdf",
                 "multiqc/bwameth/multiqc_plots/png",
-                "multiqc/bwameth/multiqc_plots/png/fastqc-status-check-heatmap.png",
                 "multiqc/bwameth/multiqc_plots/png/fastqc_adapter_content_plot.png",
                 "multiqc/bwameth/multiqc_plots/png/fastqc_overrepresented_sequences_plot.png",
                 "multiqc/bwameth/multiqc_plots/png/fastqc_per_base_n_content_plot.png",
@@ -708,7 +694,6 @@
                 "multiqc/bwameth/multiqc_plots/png/samtools_alignment_plot-cnt.png",
                 "multiqc/bwameth/multiqc_plots/png/samtools_alignment_plot-pct.png",
                 "multiqc/bwameth/multiqc_plots/svg",
-                "multiqc/bwameth/multiqc_plots/svg/fastqc-status-check-heatmap.svg",
                 "multiqc/bwameth/multiqc_plots/svg/fastqc_adapter_content_plot.svg",
                 "multiqc/bwameth/multiqc_plots/svg/fastqc_overrepresented_sequences_plot.svg",
                 "multiqc/bwameth/multiqc_plots/svg/fastqc_per_base_n_content_plot.svg",
@@ -729,13 +714,14 @@
                 "multiqc/bwameth/multiqc_plots/svg/samtools_alignment_plot-pct.svg",
                 "multiqc/bwameth/multiqc_report.html",
                 "pipeline_info",
-                "pipeline_info/nf_core_methylseq_software_mqc_versions.yml"
+                "pipeline_info/nf_core_methylseq_software_mqc_versions.yml",
+                "pipeline_info/nf_core_methylseq_topic_versions.yml"
             ],
             [
                 "umi_pe.flagstat:md5,e438ea265ac5931fca9d3fb7b14a906b",
-                "umi_pe.stats:md5,a674c16ca02e071d1673d4bd79508291",
+                "umi_pe.stats:md5,38cb1524629942aaed1fa8f0b70723ea",
                 "umi_se.flagstat:md5,01f1352ed78371d75c82389f3baf3361",
-                "umi_se.stats:md5,66632634926f87d480a2305f9a81675f",
+                "umi_se.stats:md5,2419810b247dfcd70330caa8f77a383a",
                 "umi_pe.mbias.txt:md5,fce04d733e066d0b933cedc602e2af81",
                 "umi_se.mbias.txt:md5,fce04d733e066d0b933cedc602e2af81",
                 "umi_pe.markdup.sorted_CpG.bedGraph:md5,fadfc8ec821db6b11663ae8225c56fb9",
@@ -757,6 +743,7 @@
                 "multiqc_samtools_stats.txt:md5,00ab34993fdd3ce9be1bed16b104965a",
                 "picard_MarkIlluminaAdapters_histogram.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
                 "picard_MeanQualityByCycle_histogram.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
+                "picard_MeanQualityByCycle_histogram_1.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
                 "picard_QualityScoreDistribution_histogram.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
                 "picard_deduplication.txt:md5,feb039f094d33479fc529d0c984f2ddc",
                 "samtools-flagstat-pct-table.txt:md5,e5066cb727ebbe81d78552726b6deb90",
@@ -766,16 +753,8 @@
             ],
             [
                 [
-                    "umi_pe.deduplicated.sorted.bam",
-                    "9406451a90fd01b827772ffa51216913"
-                ],
-                [
                     "umi_pe.markdup.sorted.bam",
                     "1f3cfc3c5049406fa84395af9af9608a"
-                ],
-                [
-                    "umi_se.deduplicated.sorted.bam",
-                    "5cca5aaee40d8eb9f8a51f8b6765ed0e"
                 ],
                 [
                     "umi_se.markdup.sorted.bam",
@@ -783,7 +762,7 @@
                 ]
             ]
         ],
-        "timestamp": "2026-03-27T11:21:51.896175209",
+        "timestamp": "2026-03-30T09:12:17.659907096",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "25.04.8"
@@ -793,38 +772,41 @@
         "content": [
             18,
             {
-                "BISMARK_ALIGN": {
-                    "bismark": "0.25.0"
-                },
                 "BISMARK_DEDUPLICATE": {
-                    "bismark": "0.25.0"
+                    "bismark": "0.25.1"
                 },
-                "BISMARK_GENOMEPREPARATION": {
-                    "bismark": "0.25.0"
+                "BISMARK_GENOMEPREPARATION_BOWTIE": {
+                    "bismark": "0.25.1"
                 },
                 "BISMARK_METHYLATIONEXTRACTOR": {
-                    "bismark": "0.25.0"
+                    "bismark": "0.25.1"
                 },
                 "BISMARK_REPORT": {
-                    "bismark": "0.25.0"
+                    "bismark": "0.25.1"
                 },
                 "BISMARK_SUMMARY": {
-                    "bismark": "0.25.0"
-                },
-                "FASTQC": {
-                    "fastqc": "0.12.1"
+                    "bismark": "0.25.1"
                 },
                 "GUNZIP": {
                     "gunzip": 1.13
                 },
                 "SAMTOOLS_INDEX": {
-                    "samtools": 1.21
-                },
-                "SAMTOOLS_SORT": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "Workflow": {
-                    "nf-core/methylseq": "v4.1.0"
+                    "nf-core/methylseq": "v4.2.0"
+                },
+                "BISMARK_ALIGN": {
+                    "bismark": "0.25.1"
+                },
+                "FASTQC": {
+                    "fastqc": "0.12.1"
+                },
+                "MULTIQC": {
+                    "multiqc": 1.32
+                },
+                "SAMTOOLS_SORT": {
+                    "samtools": "1.22.1"
                 }
             },
             [
@@ -878,7 +860,6 @@
                 "multiqc",
                 "multiqc/bismark",
                 "multiqc/bismark/multiqc_data",
-                "multiqc/bismark/multiqc_data/BETA-multiqc.parquet",
                 "multiqc/bismark/multiqc_data/bismark-methylation-dp.txt",
                 "multiqc/bismark/multiqc_data/bismark_alignment.txt",
                 "multiqc/bismark/multiqc_data/bismark_deduplication.txt",
@@ -902,6 +883,7 @@
                 "multiqc/bismark/multiqc_data/fastqc_top_overrepresented_sequences_table.txt",
                 "multiqc/bismark/multiqc_data/llms-full.txt",
                 "multiqc/bismark/multiqc_data/multiqc.log",
+                "multiqc/bismark/multiqc_data/multiqc.parquet",
                 "multiqc/bismark/multiqc_data/multiqc_bismark_alignment.txt",
                 "multiqc/bismark/multiqc_data/multiqc_bismark_dedup.txt",
                 "multiqc/bismark/multiqc_data/multiqc_bismark_methextract.txt",
@@ -926,7 +908,6 @@
                 "multiqc/bismark/multiqc_plots/pdf/bismark_mbias_CpG_R2.pdf",
                 "multiqc/bismark/multiqc_plots/pdf/bismark_strand_alignment-cnt.pdf",
                 "multiqc/bismark/multiqc_plots/pdf/bismark_strand_alignment-pct.pdf",
-                "multiqc/bismark/multiqc_plots/pdf/fastqc-status-check-heatmap.pdf",
                 "multiqc/bismark/multiqc_plots/pdf/fastqc_adapter_content_plot.pdf",
                 "multiqc/bismark/multiqc_plots/pdf/fastqc_overrepresented_sequences_plot.pdf",
                 "multiqc/bismark/multiqc_plots/pdf/fastqc_per_base_n_content_plot.pdf",
@@ -952,7 +933,6 @@
                 "multiqc/bismark/multiqc_plots/png/bismark_mbias_CpG_R2.png",
                 "multiqc/bismark/multiqc_plots/png/bismark_strand_alignment-cnt.png",
                 "multiqc/bismark/multiqc_plots/png/bismark_strand_alignment-pct.png",
-                "multiqc/bismark/multiqc_plots/png/fastqc-status-check-heatmap.png",
                 "multiqc/bismark/multiqc_plots/png/fastqc_adapter_content_plot.png",
                 "multiqc/bismark/multiqc_plots/png/fastqc_overrepresented_sequences_plot.png",
                 "multiqc/bismark/multiqc_plots/png/fastqc_per_base_n_content_plot.png",
@@ -978,7 +958,6 @@
                 "multiqc/bismark/multiqc_plots/svg/bismark_mbias_CpG_R2.svg",
                 "multiqc/bismark/multiqc_plots/svg/bismark_strand_alignment-cnt.svg",
                 "multiqc/bismark/multiqc_plots/svg/bismark_strand_alignment-pct.svg",
-                "multiqc/bismark/multiqc_plots/svg/fastqc-status-check-heatmap.svg",
                 "multiqc/bismark/multiqc_plots/svg/fastqc_adapter_content_plot.svg",
                 "multiqc/bismark/multiqc_plots/svg/fastqc_overrepresented_sequences_plot.svg",
                 "multiqc/bismark/multiqc_plots/svg/fastqc_per_base_n_content_plot.svg",
@@ -992,23 +971,24 @@
                 "multiqc/bismark/multiqc_plots/svg/fastqc_top_overrepresented_sequences_table.svg",
                 "multiqc/bismark/multiqc_report.html",
                 "pipeline_info",
-                "pipeline_info/nf_core_methylseq_software_mqc_versions.yml"
+                "pipeline_info/nf_core_methylseq_software_mqc_versions.yml",
+                "pipeline_info/nf_core_methylseq_topic_versions.yml"
             ],
             [
                 "umi_test_PE_R1_bismark_bt2_pe.deduplicated.bedGraph.gz:md5,1c40855184cdf4a795ca8e5ba580ea4e",
                 "umi_test_SE_bismark_bt2.deduplicated.bedGraph.gz:md5,147ce028fa8bb8d2d3de9930ae555a3b",
                 "umi_test_PE_R1_bismark_bt2_pe.deduplicated.M-bias.txt:md5,4d3340a40b693a1b51053052cd2e4afb",
                 "umi_test_SE_bismark_bt2.deduplicated.M-bias.txt:md5,a59c396329c3c695115e802e3e53c62f",
-                "CHG_OB_umi_test_PE_R1_bismark_bt2_pe.deduplicated.txt.gz:md5,0ee9c5ab3b241ad6eda8946abbab59fb",
-                "CHG_OT_umi_test_SE_bismark_bt2.deduplicated.txt.gz:md5,86a58b4be2ac7c4e9dd2c92e527445c4",
-                "CHH_OB_umi_test_PE_R1_bismark_bt2_pe.deduplicated.txt.gz:md5,935db15cac12ccf88f12ee89250b0227",
-                "CHH_OT_umi_test_SE_bismark_bt2.deduplicated.txt.gz:md5,daf0a41761b633fc67b37af10d7d438c",
-                "CpG_OB_umi_test_PE_R1_bismark_bt2_pe.deduplicated.txt.gz:md5,67d760fc2d63192ee135d2988b69efd7",
-                "CpG_OT_umi_test_SE_bismark_bt2.deduplicated.txt.gz:md5,0d34649feca24c3ff136a76ddaf4cf51",
+                "CHG_OB_umi_test_PE_R1_bismark_bt2_pe.deduplicated.txt.gz:md5,9b48ff2ed5a17e08b5d31853335b32fd",
+                "CHG_OT_umi_test_SE_bismark_bt2.deduplicated.txt.gz:md5,dab51c39182412b45a838a1a6dcacd78",
+                "CHH_OB_umi_test_PE_R1_bismark_bt2_pe.deduplicated.txt.gz:md5,acaeac5d388e5fad902f8cb15761044b",
+                "CHH_OT_umi_test_SE_bismark_bt2.deduplicated.txt.gz:md5,fbce1868861a98ff68e3afc062912548",
+                "CpG_OB_umi_test_PE_R1_bismark_bt2_pe.deduplicated.txt.gz:md5,8e4b1cee93337de59d82b1dfae5ab619",
+                "CpG_OT_umi_test_SE_bismark_bt2.deduplicated.txt.gz:md5,631e4198b102a5cc282c1683b4b2f1da",
                 "umi_test_PE_R1_bismark_bt2_pe.deduplicated.bismark.cov.gz:md5,712b99f15835700219329ff7c6bbc1a4",
                 "umi_test_SE_bismark_bt2.deduplicated.bismark.cov.gz:md5,4395f94f2a5b625089601f436645f331",
-                "umi_test_PE_R1_bismark_bt2_pe.deduplicated_splitting_report.txt:md5,ca571762745d161af0519048b26f328c",
-                "umi_test_SE_bismark_bt2.deduplicated_splitting_report.txt:md5,19a97d3fb06a9de24e7a3297452ec699",
+                "umi_test_PE_R1_bismark_bt2_pe.deduplicated_splitting_report.txt:md5,70336785fe89f1270802f9547899482a",
+                "umi_test_SE_bismark_bt2.deduplicated_splitting_report.txt:md5,f09cf31da4ede8c84e3154663c1d5e03",
                 "bismark-methylation-dp.txt:md5,216b96184a1eb43bd7b9e3d485124e33",
                 "bismark_alignment.txt:md5,eda66c06fe09e9174d422091e28f993a",
                 "bismark_deduplication.txt:md5,878f53af0a4142b9bf9d144b2732799c",
@@ -1030,9 +1010,9 @@
                 "fastqc_sequence_counts_plot.txt:md5,df46e27abb5e699fe04f9c0486083334",
                 "fastqc_sequence_duplication_levels_plot.txt:md5,e9dc55b42d4660edf11ceb0742f3933d",
                 "fastqc_top_overrepresented_sequences_table.txt:md5,174dfadc57c0b4f34d7b744a0a4f920a",
-                "multiqc_bismark_alignment.txt:md5,de0e7897aa76833ecc5fd086512f836c",
+                "multiqc_bismark_alignment.txt:md5,a3e7f6424c6a26c2e5606916207a2e2b",
                 "multiqc_bismark_dedup.txt:md5,a6304953b6a0a75425a8705ba533d6c5",
-                "multiqc_bismark_methextract.txt:md5,4e59be8d2948fc4b273b28249842805e",
+                "multiqc_bismark_methextract.txt:md5,421f63d62cb6cc38b6c2c3b49f3ab1ff",
                 "multiqc_citations.txt:md5,b205bd4d8278b41f2f712dfe7c740bce"
             ],
             [
@@ -1046,7 +1026,7 @@
                 ]
             ]
         ],
-        "timestamp": "2026-03-27T11:20:08.673942117",
+        "timestamp": "2026-03-30T09:10:19.647026483",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "25.04.8"
@@ -1056,35 +1036,26 @@
         "content": [
             20,
             {
-                "BISMARK_ALIGN": {
-                    "bismark": "0.25.0"
-                },
                 "BISMARK_DEDUPLICATE": {
-                    "bismark": "0.25.0"
+                    "bismark": "0.25.1"
                 },
-                "BISMARK_GENOMEPREPARATION": {
-                    "bismark": "0.25.0"
+                "BISMARK_GENOMEPREPARATION_BOWTIE": {
+                    "bismark": "0.25.1"
                 },
                 "BISMARK_METHYLATIONEXTRACTOR": {
-                    "bismark": "0.25.0"
+                    "bismark": "0.25.1"
                 },
                 "BISMARK_REPORT": {
-                    "bismark": "0.25.0"
+                    "bismark": "0.25.1"
                 },
                 "BISMARK_SUMMARY": {
-                    "bismark": "0.25.0"
-                },
-                "FASTQC": {
-                    "fastqc": "0.12.1"
+                    "bismark": "0.25.1"
                 },
                 "GUNZIP": {
                     "gunzip": 1.13
                 },
                 "SAMTOOLS_INDEX": {
-                    "samtools": 1.21
-                },
-                "SAMTOOLS_SORT": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "TRIMGALORE": {
                     "trimgalore": "0.6.10",
@@ -1092,7 +1063,19 @@
                     "pigz": 2.8
                 },
                 "Workflow": {
-                    "nf-core/methylseq": "v4.1.0"
+                    "nf-core/methylseq": "v4.2.0"
+                },
+                "BISMARK_ALIGN": {
+                    "bismark": "0.25.1"
+                },
+                "FASTQC": {
+                    "fastqc": "0.12.1"
+                },
+                "MULTIQC": {
+                    "multiqc": 1.32
+                },
+                "SAMTOOLS_SORT": {
+                    "samtools": "1.22.1"
                 }
             },
             [
@@ -1146,7 +1129,6 @@
                 "multiqc",
                 "multiqc/bismark",
                 "multiqc/bismark/multiqc_data",
-                "multiqc/bismark/multiqc_data/BETA-multiqc.parquet",
                 "multiqc/bismark/multiqc_data/bismark-methylation-dp.txt",
                 "multiqc/bismark/multiqc_data/bismark_alignment.txt",
                 "multiqc/bismark/multiqc_data/bismark_deduplication.txt",
@@ -1173,6 +1155,7 @@
                 "multiqc/bismark/multiqc_data/fastqc_top_overrepresented_sequences_table.txt",
                 "multiqc/bismark/multiqc_data/llms-full.txt",
                 "multiqc/bismark/multiqc_data/multiqc.log",
+                "multiqc/bismark/multiqc_data/multiqc.parquet",
                 "multiqc/bismark/multiqc_data/multiqc_bismark_alignment.txt",
                 "multiqc/bismark/multiqc_data/multiqc_bismark_dedup.txt",
                 "multiqc/bismark/multiqc_data/multiqc_bismark_methextract.txt",
@@ -1202,7 +1185,6 @@
                 "multiqc/bismark/multiqc_plots/pdf/cutadapt_filtered_reads_plot-pct.pdf",
                 "multiqc/bismark/multiqc_plots/pdf/cutadapt_trimmed_sequences_plot_3_Counts.pdf",
                 "multiqc/bismark/multiqc_plots/pdf/cutadapt_trimmed_sequences_plot_3_Obs_Exp.pdf",
-                "multiqc/bismark/multiqc_plots/pdf/fastqc-status-check-heatmap.pdf",
                 "multiqc/bismark/multiqc_plots/pdf/fastqc_adapter_content_plot.pdf",
                 "multiqc/bismark/multiqc_plots/pdf/fastqc_overrepresented_sequences_plot.pdf",
                 "multiqc/bismark/multiqc_plots/pdf/fastqc_per_base_n_content_plot.pdf",
@@ -1232,7 +1214,6 @@
                 "multiqc/bismark/multiqc_plots/png/cutadapt_filtered_reads_plot-pct.png",
                 "multiqc/bismark/multiqc_plots/png/cutadapt_trimmed_sequences_plot_3_Counts.png",
                 "multiqc/bismark/multiqc_plots/png/cutadapt_trimmed_sequences_plot_3_Obs_Exp.png",
-                "multiqc/bismark/multiqc_plots/png/fastqc-status-check-heatmap.png",
                 "multiqc/bismark/multiqc_plots/png/fastqc_adapter_content_plot.png",
                 "multiqc/bismark/multiqc_plots/png/fastqc_overrepresented_sequences_plot.png",
                 "multiqc/bismark/multiqc_plots/png/fastqc_per_base_n_content_plot.png",
@@ -1262,7 +1243,6 @@
                 "multiqc/bismark/multiqc_plots/svg/cutadapt_filtered_reads_plot-pct.svg",
                 "multiqc/bismark/multiqc_plots/svg/cutadapt_trimmed_sequences_plot_3_Counts.svg",
                 "multiqc/bismark/multiqc_plots/svg/cutadapt_trimmed_sequences_plot_3_Obs_Exp.svg",
-                "multiqc/bismark/multiqc_plots/svg/fastqc-status-check-heatmap.svg",
                 "multiqc/bismark/multiqc_plots/svg/fastqc_adapter_content_plot.svg",
                 "multiqc/bismark/multiqc_plots/svg/fastqc_overrepresented_sequences_plot.svg",
                 "multiqc/bismark/multiqc_plots/svg/fastqc_per_base_n_content_plot.svg",
@@ -1277,6 +1257,7 @@
                 "multiqc/bismark/multiqc_report.html",
                 "pipeline_info",
                 "pipeline_info/nf_core_methylseq_software_mqc_versions.yml",
+                "pipeline_info/nf_core_methylseq_topic_versions.yml",
                 "trimgalore",
                 "trimgalore/fastqc",
                 "trimgalore/fastqc/umi_pe_1_val_1_fastqc.html",
@@ -1296,16 +1277,16 @@
                 "umi_se_trimmed_bismark_bt2.deduplicated.bedGraph.gz:md5,16959bee819361698e5eb47cc154c3e1",
                 "umi_pe_1_val_1_bismark_bt2_pe.deduplicated.M-bias.txt:md5,4d3340a40b693a1b51053052cd2e4afb",
                 "umi_se_trimmed_bismark_bt2.deduplicated.M-bias.txt:md5,31519b5f416b5a25eb358b307c821616",
-                "CHG_OB_umi_pe_1_val_1_bismark_bt2_pe.deduplicated.txt.gz:md5,0ee9c5ab3b241ad6eda8946abbab59fb",
-                "CHG_OT_umi_se_trimmed_bismark_bt2.deduplicated.txt.gz:md5,60b778c5b555a06a07f56b171d8d3412",
-                "CHH_OB_umi_pe_1_val_1_bismark_bt2_pe.deduplicated.txt.gz:md5,935db15cac12ccf88f12ee89250b0227",
-                "CHH_OT_umi_se_trimmed_bismark_bt2.deduplicated.txt.gz:md5,b795d537f20a3be6a835252268fb8ef3",
-                "CpG_OB_umi_pe_1_val_1_bismark_bt2_pe.deduplicated.txt.gz:md5,67d760fc2d63192ee135d2988b69efd7",
-                "CpG_OT_umi_se_trimmed_bismark_bt2.deduplicated.txt.gz:md5,7cadc33d9737ab5ab4266d9932ec4467",
+                "CHG_OB_umi_pe_1_val_1_bismark_bt2_pe.deduplicated.txt.gz:md5,9b48ff2ed5a17e08b5d31853335b32fd",
+                "CHG_OT_umi_se_trimmed_bismark_bt2.deduplicated.txt.gz:md5,be08d27a8ef2124adb5319beabe5c57f",
+                "CHH_OB_umi_pe_1_val_1_bismark_bt2_pe.deduplicated.txt.gz:md5,acaeac5d388e5fad902f8cb15761044b",
+                "CHH_OT_umi_se_trimmed_bismark_bt2.deduplicated.txt.gz:md5,e3d7b468a2aa889c34d6132bd5419fe1",
+                "CpG_OB_umi_pe_1_val_1_bismark_bt2_pe.deduplicated.txt.gz:md5,8e4b1cee93337de59d82b1dfae5ab619",
+                "CpG_OT_umi_se_trimmed_bismark_bt2.deduplicated.txt.gz:md5,0c4976759db5d8e740813cdf9a69bc6b",
                 "umi_pe_1_val_1_bismark_bt2_pe.deduplicated.bismark.cov.gz:md5,712b99f15835700219329ff7c6bbc1a4",
                 "umi_se_trimmed_bismark_bt2.deduplicated.bismark.cov.gz:md5,3e1814f259da68901b2e6f1ee159d12a",
-                "umi_pe_1_val_1_bismark_bt2_pe.deduplicated_splitting_report.txt:md5,5671f06d000b00bda1fc1bdc2e23f98c",
-                "umi_se_trimmed_bismark_bt2.deduplicated_splitting_report.txt:md5,b5993d21ddfc25aed437c409cbab3c52",
+                "umi_pe_1_val_1_bismark_bt2_pe.deduplicated_splitting_report.txt:md5,358e121069489bfd182f71d6edd096d2",
+                "umi_se_trimmed_bismark_bt2.deduplicated_splitting_report.txt:md5,0fac2667c3fb1ea95cc4688fab54ea72",
                 "bismark-methylation-dp.txt:md5,6d791291c1b665b0e87ad6878329c8ec",
                 "bismark_alignment.txt:md5,92d2fd023c6d7d1fc16da936fb42f86e",
                 "bismark_deduplication.txt:md5,ff367c40f7f0102c6c3f7912fb3b6c95",
@@ -1330,9 +1311,9 @@
                 "fastqc_sequence_counts_plot.txt:md5,df46e27abb5e699fe04f9c0486083334",
                 "fastqc_sequence_duplication_levels_plot.txt:md5,e9dc55b42d4660edf11ceb0742f3933d",
                 "fastqc_top_overrepresented_sequences_table.txt:md5,174dfadc57c0b4f34d7b744a0a4f920a",
-                "multiqc_bismark_alignment.txt:md5,fcfc9872c1327cd8c992dd26913a4ac8",
+                "multiqc_bismark_alignment.txt:md5,0b2f9f3634442f18cad301abd9d5c211",
                 "multiqc_bismark_dedup.txt:md5,ca91f936b2f7d1a22ce5f5d0cd7a2126",
-                "multiqc_bismark_methextract.txt:md5,3d170ceef6a95e0ca8e5c75f5d560c2c",
+                "multiqc_bismark_methextract.txt:md5,c267d55e19411e8fedac96338e873706",
                 "multiqc_citations.txt:md5,73a6d29705d5a07f17f99c92e3a0f148",
                 "multiqc_cutadapt.txt:md5,d4c913a93b7e19d774103fa2703d9782"
             ],
@@ -1347,7 +1328,7 @@
                 ]
             ]
         ],
-        "timestamp": "2026-03-27T11:19:23.338799773",
+        "timestamp": "2026-03-30T09:09:29.039944278",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "25.04.8"
@@ -1357,38 +1338,29 @@
         "content": [
             22,
             {
-                "BISMARK_ALIGN": {
-                    "bismark": "0.25.0"
-                },
                 "BISMARK_COVERAGE2CYTOSINE": {
-                    "bismark": "0.25.0"
+                    "bismark": "0.25.1"
                 },
                 "BISMARK_DEDUPLICATE": {
-                    "bismark": "0.25.0"
+                    "bismark": "0.25.1"
                 },
-                "BISMARK_GENOMEPREPARATION": {
-                    "bismark": "0.25.0"
+                "BISMARK_GENOMEPREPARATION_BOWTIE": {
+                    "bismark": "0.25.1"
                 },
                 "BISMARK_METHYLATIONEXTRACTOR": {
-                    "bismark": "0.25.0"
+                    "bismark": "0.25.1"
                 },
                 "BISMARK_REPORT": {
-                    "bismark": "0.25.0"
+                    "bismark": "0.25.1"
                 },
                 "BISMARK_SUMMARY": {
-                    "bismark": "0.25.0"
-                },
-                "FASTQC": {
-                    "fastqc": "0.12.1"
+                    "bismark": "0.25.1"
                 },
                 "GUNZIP": {
                     "gunzip": 1.13
                 },
                 "SAMTOOLS_INDEX": {
-                    "samtools": 1.21
-                },
-                "SAMTOOLS_SORT": {
-                    "samtools": 1.21
+                    "samtools": "1.22.1"
                 },
                 "TRIMGALORE": {
                     "trimgalore": "0.6.10",
@@ -1396,7 +1368,19 @@
                     "pigz": 2.8
                 },
                 "Workflow": {
-                    "nf-core/methylseq": "v4.1.0"
+                    "nf-core/methylseq": "v4.2.0"
+                },
+                "BISMARK_ALIGN": {
+                    "bismark": "0.25.1"
+                },
+                "FASTQC": {
+                    "fastqc": "0.12.1"
+                },
+                "MULTIQC": {
+                    "multiqc": 1.32
+                },
+                "SAMTOOLS_SORT": {
+                    "samtools": "1.22.1"
                 }
             },
             [
@@ -1458,7 +1442,6 @@
                 "multiqc",
                 "multiqc/bismark",
                 "multiqc/bismark/multiqc_data",
-                "multiqc/bismark/multiqc_data/BETA-multiqc.parquet",
                 "multiqc/bismark/multiqc_data/bismark-methylation-dp.txt",
                 "multiqc/bismark/multiqc_data/bismark_alignment.txt",
                 "multiqc/bismark/multiqc_data/bismark_deduplication.txt",
@@ -1485,6 +1468,7 @@
                 "multiqc/bismark/multiqc_data/fastqc_top_overrepresented_sequences_table.txt",
                 "multiqc/bismark/multiqc_data/llms-full.txt",
                 "multiqc/bismark/multiqc_data/multiqc.log",
+                "multiqc/bismark/multiqc_data/multiqc.parquet",
                 "multiqc/bismark/multiqc_data/multiqc_bismark_alignment.txt",
                 "multiqc/bismark/multiqc_data/multiqc_bismark_dedup.txt",
                 "multiqc/bismark/multiqc_data/multiqc_bismark_methextract.txt",
@@ -1514,7 +1498,6 @@
                 "multiqc/bismark/multiqc_plots/pdf/cutadapt_filtered_reads_plot-pct.pdf",
                 "multiqc/bismark/multiqc_plots/pdf/cutadapt_trimmed_sequences_plot_3_Counts.pdf",
                 "multiqc/bismark/multiqc_plots/pdf/cutadapt_trimmed_sequences_plot_3_Obs_Exp.pdf",
-                "multiqc/bismark/multiqc_plots/pdf/fastqc-status-check-heatmap.pdf",
                 "multiqc/bismark/multiqc_plots/pdf/fastqc_adapter_content_plot.pdf",
                 "multiqc/bismark/multiqc_plots/pdf/fastqc_overrepresented_sequences_plot.pdf",
                 "multiqc/bismark/multiqc_plots/pdf/fastqc_per_base_n_content_plot.pdf",
@@ -1544,7 +1527,6 @@
                 "multiqc/bismark/multiqc_plots/png/cutadapt_filtered_reads_plot-pct.png",
                 "multiqc/bismark/multiqc_plots/png/cutadapt_trimmed_sequences_plot_3_Counts.png",
                 "multiqc/bismark/multiqc_plots/png/cutadapt_trimmed_sequences_plot_3_Obs_Exp.png",
-                "multiqc/bismark/multiqc_plots/png/fastqc-status-check-heatmap.png",
                 "multiqc/bismark/multiqc_plots/png/fastqc_adapter_content_plot.png",
                 "multiqc/bismark/multiqc_plots/png/fastqc_overrepresented_sequences_plot.png",
                 "multiqc/bismark/multiqc_plots/png/fastqc_per_base_n_content_plot.png",
@@ -1574,7 +1556,6 @@
                 "multiqc/bismark/multiqc_plots/svg/cutadapt_filtered_reads_plot-pct.svg",
                 "multiqc/bismark/multiqc_plots/svg/cutadapt_trimmed_sequences_plot_3_Counts.svg",
                 "multiqc/bismark/multiqc_plots/svg/cutadapt_trimmed_sequences_plot_3_Obs_Exp.svg",
-                "multiqc/bismark/multiqc_plots/svg/fastqc-status-check-heatmap.svg",
                 "multiqc/bismark/multiqc_plots/svg/fastqc_adapter_content_plot.svg",
                 "multiqc/bismark/multiqc_plots/svg/fastqc_overrepresented_sequences_plot.svg",
                 "multiqc/bismark/multiqc_plots/svg/fastqc_per_base_n_content_plot.svg",
@@ -1589,6 +1570,7 @@
                 "multiqc/bismark/multiqc_report.html",
                 "pipeline_info",
                 "pipeline_info/nf_core_methylseq_software_mqc_versions.yml",
+                "pipeline_info/nf_core_methylseq_topic_versions.yml",
                 "trimgalore",
                 "trimgalore/fastqc",
                 "trimgalore/fastqc/umi_pe_1_val_1_fastqc.html",
@@ -1612,16 +1594,16 @@
                 "umi_se_trimmed_bismark_bt2.deduplicated.bedGraph.gz:md5,16959bee819361698e5eb47cc154c3e1",
                 "umi_pe_1_val_1_bismark_bt2_pe.deduplicated.M-bias.txt:md5,4d3340a40b693a1b51053052cd2e4afb",
                 "umi_se_trimmed_bismark_bt2.deduplicated.M-bias.txt:md5,31519b5f416b5a25eb358b307c821616",
-                "CHG_OB_umi_pe_1_val_1_bismark_bt2_pe.deduplicated.txt.gz:md5,0ee9c5ab3b241ad6eda8946abbab59fb",
-                "CHG_OT_umi_se_trimmed_bismark_bt2.deduplicated.txt.gz:md5,60b778c5b555a06a07f56b171d8d3412",
-                "CHH_OB_umi_pe_1_val_1_bismark_bt2_pe.deduplicated.txt.gz:md5,935db15cac12ccf88f12ee89250b0227",
-                "CHH_OT_umi_se_trimmed_bismark_bt2.deduplicated.txt.gz:md5,b795d537f20a3be6a835252268fb8ef3",
-                "CpG_OB_umi_pe_1_val_1_bismark_bt2_pe.deduplicated.txt.gz:md5,67d760fc2d63192ee135d2988b69efd7",
-                "CpG_OT_umi_se_trimmed_bismark_bt2.deduplicated.txt.gz:md5,7cadc33d9737ab5ab4266d9932ec4467",
+                "CHG_OB_umi_pe_1_val_1_bismark_bt2_pe.deduplicated.txt.gz:md5,9b48ff2ed5a17e08b5d31853335b32fd",
+                "CHG_OT_umi_se_trimmed_bismark_bt2.deduplicated.txt.gz:md5,be08d27a8ef2124adb5319beabe5c57f",
+                "CHH_OB_umi_pe_1_val_1_bismark_bt2_pe.deduplicated.txt.gz:md5,acaeac5d388e5fad902f8cb15761044b",
+                "CHH_OT_umi_se_trimmed_bismark_bt2.deduplicated.txt.gz:md5,e3d7b468a2aa889c34d6132bd5419fe1",
+                "CpG_OB_umi_pe_1_val_1_bismark_bt2_pe.deduplicated.txt.gz:md5,8e4b1cee93337de59d82b1dfae5ab619",
+                "CpG_OT_umi_se_trimmed_bismark_bt2.deduplicated.txt.gz:md5,0c4976759db5d8e740813cdf9a69bc6b",
                 "umi_pe_1_val_1_bismark_bt2_pe.deduplicated.bismark.cov.gz:md5,712b99f15835700219329ff7c6bbc1a4",
                 "umi_se_trimmed_bismark_bt2.deduplicated.bismark.cov.gz:md5,3e1814f259da68901b2e6f1ee159d12a",
-                "umi_pe_1_val_1_bismark_bt2_pe.deduplicated_splitting_report.txt:md5,5671f06d000b00bda1fc1bdc2e23f98c",
-                "umi_se_trimmed_bismark_bt2.deduplicated_splitting_report.txt:md5,b5993d21ddfc25aed437c409cbab3c52",
+                "umi_pe_1_val_1_bismark_bt2_pe.deduplicated_splitting_report.txt:md5,358e121069489bfd182f71d6edd096d2",
+                "umi_se_trimmed_bismark_bt2.deduplicated_splitting_report.txt:md5,0fac2667c3fb1ea95cc4688fab54ea72",
                 "bismark-methylation-dp.txt:md5,6d791291c1b665b0e87ad6878329c8ec",
                 "bismark_alignment.txt:md5,92d2fd023c6d7d1fc16da936fb42f86e",
                 "bismark_deduplication.txt:md5,ff367c40f7f0102c6c3f7912fb3b6c95",
@@ -1646,9 +1628,9 @@
                 "fastqc_sequence_counts_plot.txt:md5,df46e27abb5e699fe04f9c0486083334",
                 "fastqc_sequence_duplication_levels_plot.txt:md5,e9dc55b42d4660edf11ceb0742f3933d",
                 "fastqc_top_overrepresented_sequences_table.txt:md5,174dfadc57c0b4f34d7b744a0a4f920a",
-                "multiqc_bismark_alignment.txt:md5,fcfc9872c1327cd8c992dd26913a4ac8",
+                "multiqc_bismark_alignment.txt:md5,0b2f9f3634442f18cad301abd9d5c211",
                 "multiqc_bismark_dedup.txt:md5,ca91f936b2f7d1a22ce5f5d0cd7a2126",
-                "multiqc_bismark_methextract.txt:md5,3d170ceef6a95e0ca8e5c75f5d560c2c",
+                "multiqc_bismark_methextract.txt:md5,c267d55e19411e8fedac96338e873706",
                 "multiqc_citations.txt:md5,73a6d29705d5a07f17f99c92e3a0f148",
                 "multiqc_cutadapt.txt:md5,d4c913a93b7e19d774103fa2703d9782"
             ],
@@ -1663,7 +1645,7 @@
                 ]
             ]
         ],
-        "timestamp": "2026-03-27T11:20:57.528884673",
+        "timestamp": "2026-03-30T09:11:13.715002058",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "25.04.8"

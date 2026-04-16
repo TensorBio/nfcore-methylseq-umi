@@ -1,7 +1,9 @@
 include { FASTQ_ALIGN_BWA               } from '../fastq_align_bwa/main'
 include { PICARD_ADDORREPLACEREADGROUPS } from '../../../modules/nf-core/picard/addorreplacereadgroups/main'
 include { PICARD_MARKDUPLICATES         } from '../../../modules/nf-core/picard/markduplicates/main'
+include { PICARD_UMIMARKDUPLICATES      } from '../../../modules/nf-core/picard/umimarkduplicates/main'
 include { SAMTOOLS_INDEX                } from '../../../modules/nf-core/samtools/index/main'
+include { SAMTOOLS_UMITAGTRANSFER       } from '../../../modules/local/samtools/umitagtransfer/main'
 
 workflow FASTQ_ALIGN_DEDUP_BWAMEM {
 
@@ -11,6 +13,7 @@ workflow FASTQ_ALIGN_DEDUP_BWAMEM {
     ch_fasta_index       // channel: [ val(meta), [ fasta index ] ]
     ch_bwamem_index      // channel: [ val(meta), [ bwamem index ] ]
     skip_deduplication   // boolean: whether to deduplicate alignments
+    umi                  // boolean: whether to use UMI-aware deduplication
 
     main:
     ch_alignment       = channel.empty()
@@ -46,26 +49,54 @@ workflow FASTQ_ALIGN_DEDUP_BWAMEM {
         )
         ch_versions = ch_versions.mix(PICARD_ADDORREPLACEREADGROUPS.out.versions.first())
 
-        /*
-         * Run Picard MarkDuplicates to mark duplicates
-         */
-        PICARD_MARKDUPLICATES (
-            PICARD_ADDORREPLACEREADGROUPS.out.bam,
-            ch_fasta,
-            ch_fasta_index
-        )
-        ch_versions = ch_versions.mix(PICARD_MARKDUPLICATES.out.versions.first())
+        if (umi) {
+            /*
+             * Transfer UMI from read name to RX BAM tag before Picard
+             */
+            SAMTOOLS_UMITAGTRANSFER (
+                PICARD_ADDORREPLACEREADGROUPS.out.bam
+            )
+            ch_versions = ch_versions.mix(SAMTOOLS_UMITAGTRANSFER.out.versions.first())
 
-        /*
-         * Run samtools index on deduplicated alignment
-         */
-        SAMTOOLS_INDEX (
-            PICARD_MARKDUPLICATES.out.bam
-        )
-        ch_alignment       = PICARD_MARKDUPLICATES.out.bam
-        ch_alignment_index = SAMTOOLS_INDEX.out.bai
-        ch_picard_metrics  = PICARD_MARKDUPLICATES.out.metrics
-        ch_versions        = ch_versions.mix(SAMTOOLS_INDEX.out.versions.first())
+            /*
+             * Run UMI-aware Picard deduplication
+             */
+            PICARD_UMIMARKDUPLICATES (
+                SAMTOOLS_UMITAGTRANSFER.out.bam,
+                ch_fasta,
+                ch_fasta_index
+            )
+            ch_versions = ch_versions.mix(PICARD_UMIMARKDUPLICATES.out.versions.first())
+
+            SAMTOOLS_INDEX (
+                PICARD_UMIMARKDUPLICATES.out.bam
+            )
+            ch_alignment       = PICARD_UMIMARKDUPLICATES.out.bam
+            ch_alignment_index = SAMTOOLS_INDEX.out.bai
+            ch_picard_metrics  = PICARD_UMIMARKDUPLICATES.out.metrics
+            ch_versions        = ch_versions.mix(SAMTOOLS_INDEX.out.versions.first())
+        } else {
+            /*
+             * Run Picard MarkDuplicates to mark duplicates
+             */
+            PICARD_MARKDUPLICATES (
+                PICARD_ADDORREPLACEREADGROUPS.out.bam,
+                ch_fasta,
+                ch_fasta_index
+            )
+            ch_versions = ch_versions.mix(PICARD_MARKDUPLICATES.out.versions.first())
+
+            /*
+             * Run samtools index on deduplicated alignment
+             */
+            SAMTOOLS_INDEX (
+                PICARD_MARKDUPLICATES.out.bam
+            )
+            ch_alignment       = PICARD_MARKDUPLICATES.out.bam
+            ch_alignment_index = SAMTOOLS_INDEX.out.bai
+            ch_picard_metrics  = PICARD_MARKDUPLICATES.out.metrics
+            ch_versions        = ch_versions.mix(SAMTOOLS_INDEX.out.versions.first())
+        }
     }
 
     /*
