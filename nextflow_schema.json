@@ -524,6 +524,12 @@
                     "help_text": "When set, enables UMI-aware deduplication. For Bismark workflows, adds the `--barcode` flag to `deduplicate_bismark`, which uses the UMI stored in the read name to distinguish duplicates. For bwa-meth/TAPS workflows, replaces Picard MarkDuplicates with `UmiAwareMarkDuplicatesWithMateCigar`, which reads the UMI from the `RX` BAM tag. UMIs must be embedded in read names or extracted to the `RX` tag prior to alignment.",
                     "fa_icon": "fas fa-barcode"
                 },
+                "umi_bclconvert": {
+                    "type": "boolean",
+                    "description": "Use bcl-convert UMI format for Bismark deduplication.",
+                    "help_text": "When set alongside `--umi`, adds `--bclconvert` to `deduplicate_bismark`. Use this when UMIs were embedded in read names by Illumina's bcl-convert tool, which uses a different read name format from the standard colon-delimited suffix.",
+                    "fa_icon": "fas fa-barcode"
+                },
                 "skip_fastqc": {
                     "type": "boolean",
                     "description": "Skip FastQC",
