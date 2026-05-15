@@ -29,11 +29,7 @@ workflow FASTQ_ALIGN_DEDUP_BWAMETH {
     ch_multiqc_files     = channel.empty()
     ch_versions          = channel.empty()
 
-    /*
-     * Align with bwameth
-     */
-    if (use_gpu) {
-        /*
+      /*
         * Align with parabricks GPU enabled fq2bammeth implementation of bwameth
         */
         PARABRICKS_FQ2BAMMETH (
@@ -44,18 +40,6 @@ workflow FASTQ_ALIGN_DEDUP_BWAMETH {
         )
         ch_alignment = PARABRICKS_FQ2BAMMETH.out.bam
         ch_versions  = ch_versions.mix(PARABRICKS_FQ2BAMMETH.out.versions)
-    } else {
-        /*
-        * Align with CPU version of bwameth
-        */
-        BWAMETH_ALIGN (
-            ch_reads,
-            ch_fasta,
-            ch_bwameth_index
-        )
-        ch_alignment = BWAMETH_ALIGN.out.bam
-        ch_versions  = BWAMETH_ALIGN.out.versions
-    }
 
     /*
      * Sort raw output BAM
