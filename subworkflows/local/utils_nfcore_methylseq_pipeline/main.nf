@@ -168,12 +168,17 @@ workflow PIPELINE_COMPLETION {
             imNotification(summary_params, hook_url)
         }
 
-        // Merge topic channel versions into the main versions file
-        // This is a workaround until all modules use topic channels
-        def mqcVersionsFile = file("${outdir}/pipeline_info/nf_core_methylseq_software_mqc_versions.yml")
-        def topicVersionsFile = file("${outdir}/pipeline_info/nf_core_methylseq_topic_versions.yml")
-        if (topicVersionsFile.exists() && mqcVersionsFile.exists()) {
-            mqcVersionsFile.append(topicVersionsFile.text)
+        // Merge topic channel versions into the main versions file.
+        // try-catch guards against immutable object-store backends (e.g. DNAnexus)
+        // where append() throws; pipeline results are unaffected if this fails.
+        try {
+            def mqcVersionsFile   = file("${outdir}/pipeline_info/nf_core_methylseq_software_mqc_versions.yml")
+            def topicVersionsFile = file("${outdir}/pipeline_info/nf_core_methylseq_topic_versions.yml")
+            if (topicVersionsFile.exists() && mqcVersionsFile.exists()) {
+                mqcVersionsFile.append(topicVersionsFile.text)
+            }
+        } catch (Exception e) {
+            log.warn "Could not merge topic channel versions into software versions file: ${e.message}"
         }
     }
 
