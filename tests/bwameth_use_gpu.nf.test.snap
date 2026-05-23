@@ -1,4 +1,65 @@
 {
+    "Params: bwameth | gpu=true \u2192 PARABRICKS_FQ2BAMMETH runs, BWAMETH_ALIGN does not": {
+        "content": [
+            8,
+            {
+                "BWAMETH_INDEX": {
+                    "bwameth": "0.2.9"
+                },
+                "GUNZIP": {
+                    "gunzip": 1.13
+                },
+                "TRIMGALORE": {
+                    "trimgalore": "0.6.10",
+                    "cutadapt": 4.9,
+                    "pigz": 2.8
+                },
+                "Workflow": {
+                    "nf-core/methylseq": "v4.2.0"
+                },
+                "FASTQC": {
+                    "fastqc": "0.12.1"
+                }
+            },
+            [
+                "fastqc",
+                "fastqc/SRR389222_sub1_fastqc.html",
+                "fastqc/SRR389222_sub2_fastqc.html",
+                "fastqc/SRR389222_sub3_fastqc.html",
+                "fastqc/zips",
+                "fastqc/zips/SRR389222_sub1_fastqc.zip",
+                "fastqc/zips/SRR389222_sub2_fastqc.zip",
+                "fastqc/zips/SRR389222_sub3_fastqc.zip",
+                "pipeline_info",
+                "pipeline_info/nf_core_methylseq_software_mqc_versions.yml",
+                "pipeline_info/nf_core_methylseq_topic_versions.yml",
+                "trimgalore",
+                "trimgalore/fastqc",
+                "trimgalore/fastqc/SRR389222_sub1_trimmed_fastqc.html",
+                "trimgalore/fastqc/SRR389222_sub2_trimmed_fastqc.html",
+                "trimgalore/fastqc/SRR389222_sub3_trimmed_fastqc.html",
+                "trimgalore/fastqc/zips",
+                "trimgalore/fastqc/zips/SRR389222_sub1_trimmed_fastqc.zip",
+                "trimgalore/fastqc/zips/SRR389222_sub2_trimmed_fastqc.zip",
+                "trimgalore/fastqc/zips/SRR389222_sub3_trimmed_fastqc.zip",
+                "trimgalore/logs",
+                "trimgalore/logs/SRR389222_sub1.fastq.gz_trimming_report.txt",
+                "trimgalore/logs/SRR389222_sub2.fastq.gz_trimming_report.txt",
+                "trimgalore/logs/SRR389222_sub3.fastq.gz_trimming_report.txt"
+            ],
+            [
+                
+            ],
+            [
+                
+            ]
+        ],
+        "timestamp": "2026-05-23T11:23:43.833769885",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.04.8"
+        }
+    },
     "Params: PARABRICKS_FQ2BAMMETH - GPU Profile": {
         "content": [
             {
@@ -256,10 +317,10 @@
                 ]
             ]
         ],
+        "timestamp": "2025-12-07T18:50:19.538801925",
         "meta": {
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
-        },
-        "timestamp": "2025-12-07T18:50:19.538801925"
+        }
     }
 }

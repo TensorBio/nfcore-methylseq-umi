@@ -108,7 +108,9 @@ workflow FASTQ_ALIGN_DEDUP_BWAMETH {
                 SAMTOOLS_FIXMATE (
                     ch_alignment
                 )
-                ch_versions = ch_versions.mix(SAMTOOLS_FIXMATE.out.versions_samtools.first())
+                // versions_samtools is a topic channel; do not mix into ch_versions or it
+                // will block softwareVersionsToYAML → collectFile → MULTIQC. The version
+                // is captured automatically by channel.topic("versions") in the main workflow.
             } else if (fixmate == 'picard') {
                 PICARD_FIXMATEINFORMATION (
                     ch_alignment,

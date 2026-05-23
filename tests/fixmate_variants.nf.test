@@ -1,0 +1,216 @@
+nextflow_pipeline {
+    name "Test Workflow main.nf - Fixmate Variants"
+    script "../main.nf"
+    config "./nextflow.config"
+    tag "cpu"
+    tag "umi"
+
+    // Verifies that --fixmate samtools|picard inserts the correct fixmate process
+    // before UmiAwareMarkDuplicatesWithMateCigar for both bwamem and bwameth, and
+    // that omitting --fixmate when --umi is set causes a hard startup error.
+
+    def getStandardAssertionData = { outputDir ->
+        def stable_name = getAllFilesFromDir(outputDir, relative: true, includeDir: true, ignore: ['pipeline_info/*.{html,json,txt}'])
+        def stable_path = getAllFilesFromDir(outputDir, ignoreFile: 'tests/.nftignore')
+        def bam_files   = getAllFilesFromDir(outputDir, include: ['**/*.bam'])
+        return [
+            removeNextflowVersion("${outputDir}/pipeline_info/nf_core_methylseq_software_mqc_versions.yml"),
+            stable_name,
+            stable_path,
+            bam_files.collect { file -> [ file.getName(), bam(file.toString()).getReadsMD5() ] }
+        ]
+    }
+
+    // -------------------------------------------------------------------------
+    // bwamem + UMI: fixmate=samtools
+    // -------------------------------------------------------------------------
+    test("Params: bwamem | taps | umi | fixmate=samtools") {
+        when {
+            params {
+                outdir   = "${outputDir}"
+                input    = "${projectDir}/assets/samplesheet_umi_taps.csv"
+                aligner  = "bwamem"
+                taps     = true
+                umi      = true
+                fixmate  = "samtools"
+            }
+        }
+        then {
+            def procs = workflow.trace.succeeded().collect { it.name }
+            assertAll(
+                { assert workflow.success },
+                { assert procs.any  { it.contains('SAMTOOLS_FIXMATE') } },
+                { assert !procs.any { it.contains('PICARD_FIXMATEINFORMATION') } },
+                { assert procs.any  { it.contains('SAMTOOLS_UMITAGTRANSFER') } },
+                { assert procs.any  { it.contains('PICARD_UMIMARKDUPLICATES') } },
+                { assert !procs.any { it.contains('PICARD_MARKDUPLICATES') && !it.contains('UMI') } },
+                { assert snapshot(
+                    workflow.trace.succeeded().size(),
+                    *getStandardAssertionData(params.outdir)
+                ).match() }
+            )
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // bwamem + UMI: fixmate=picard
+    // -------------------------------------------------------------------------
+    test("Params: bwamem | taps | umi | fixmate=picard") {
+        when {
+            params {
+                outdir   = "${outputDir}"
+                input    = "${projectDir}/assets/samplesheet_umi_taps.csv"
+                aligner  = "bwamem"
+                taps     = true
+                umi      = true
+                fixmate  = "picard"
+            }
+        }
+        then {
+            def procs = workflow.trace.succeeded().collect { it.name }
+            assertAll(
+                { assert workflow.success },
+                { assert procs.any  { it.contains('PICARD_FIXMATEINFORMATION') } },
+                { assert !procs.any { it.contains('SAMTOOLS_FIXMATE') } },
+                { assert procs.any  { it.contains('SAMTOOLS_UMITAGTRANSFER') } },
+                { assert procs.any  { it.contains('PICARD_UMIMARKDUPLICATES') } },
+                { assert !procs.any { it.contains('PICARD_MARKDUPLICATES') && !it.contains('UMI') } },
+                { assert snapshot(
+                    workflow.trace.succeeded().size(),
+                    *getStandardAssertionData(params.outdir)
+                ).match() }
+            )
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // bwamem + UMI: no fixmate → must fail at startup
+    // -------------------------------------------------------------------------
+    test("Params: bwamem | taps | umi | no fixmate → expect startup error") {
+        when {
+            params {
+                outdir   = "${outputDir}"
+                input    = "${projectDir}/assets/samplesheet_umi_taps.csv"
+                aligner  = "bwamem"
+                taps     = true
+                umi      = true
+            }
+        }
+        then {
+            assert workflow.failed
+            assert (workflow.stdout + workflow.stderr).any { it.contains('--umi requires --fixmate') }
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // bwameth (CPU) + UMI: fixmate=samtools
+    // -------------------------------------------------------------------------
+    test("Params: bwameth | umi | fixmate=samtools") {
+        when {
+            params {
+                outdir   = "${outputDir}"
+                input    = "${projectDir}/assets/samplesheet_umi.csv"
+                aligner  = "bwameth"
+                umi      = true
+                fixmate  = "samtools"
+            }
+        }
+        then {
+            def procs = workflow.trace.succeeded().collect { it.name }
+            assertAll(
+                { assert workflow.success },
+                { assert !procs.any { it.contains('PARABRICKS_FQ2BAMMETH') } },
+                { assert procs.any  { it.contains('BWAMETH_ALIGN') } },
+                { assert procs.any  { it.contains('SAMTOOLS_FIXMATE') } },
+                { assert !procs.any { it.contains('PICARD_FIXMATEINFORMATION') } },
+                { assert procs.any  { it.contains('SAMTOOLS_UMITAGTRANSFER') } },
+                { assert procs.any  { it.contains('PICARD_UMIMARKDUPLICATES') } },
+                { assert !procs.any { it.contains('PICARD_MARKDUPLICATES') && !it.contains('UMI') } },
+                { assert snapshot(
+                    workflow.trace.succeeded().size(),
+                    *getStandardAssertionData(params.outdir)
+                ).match() }
+            )
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // bwameth (CPU) + UMI: fixmate=picard
+    // -------------------------------------------------------------------------
+    test("Params: bwameth | umi | fixmate=picard") {
+        when {
+            params {
+                outdir   = "${outputDir}"
+                input    = "${projectDir}/assets/samplesheet_umi.csv"
+                aligner  = "bwameth"
+                umi      = true
+                fixmate  = "picard"
+            }
+        }
+        then {
+            def procs = workflow.trace.succeeded().collect { it.name }
+            assertAll(
+                { assert workflow.success },
+                { assert !procs.any { it.contains('PARABRICKS_FQ2BAMMETH') } },
+                { assert procs.any  { it.contains('BWAMETH_ALIGN') } },
+                { assert procs.any  { it.contains('PICARD_FIXMATEINFORMATION') } },
+                { assert !procs.any { it.contains('SAMTOOLS_FIXMATE') } },
+                { assert procs.any  { it.contains('SAMTOOLS_UMITAGTRANSFER') } },
+                { assert procs.any  { it.contains('PICARD_UMIMARKDUPLICATES') } },
+                { assert !procs.any { it.contains('PICARD_MARKDUPLICATES') && !it.contains('UMI') } },
+                { assert snapshot(
+                    workflow.trace.succeeded().size(),
+                    *getStandardAssertionData(params.outdir)
+                ).match() }
+            )
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // bwameth + UMI: no fixmate → must fail at startup
+    // -------------------------------------------------------------------------
+    test("Params: bwameth | umi | no fixmate → expect startup error") {
+        when {
+            params {
+                outdir   = "${outputDir}"
+                input    = "${projectDir}/assets/samplesheet_umi.csv"
+                aligner  = "bwameth"
+                umi      = true
+            }
+        }
+        then {
+            assert workflow.failed
+            assert (workflow.stdout + workflow.stderr).any { it.contains('--umi requires --fixmate') }
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // bwamem + no UMI: fixmate flag is silently ignored, standard dedup runs
+    // -------------------------------------------------------------------------
+    test("Params: bwamem | no umi | fixmate=samtools → standard dedup, fixmate not run") {
+        when {
+            params {
+                outdir   = "${outputDir}"
+                input    = "${projectDir}/assets/samplesheet_umi_taps.csv"
+                aligner  = "bwamem"
+                taps     = true
+                fixmate  = "samtools"
+            }
+        }
+        then {
+            def procs = workflow.trace.succeeded().collect { it.name }
+            assertAll(
+                { assert workflow.success },
+                { assert !procs.any { it.contains('SAMTOOLS_FIXMATE') } },
+                { assert !procs.any { it.contains('PICARD_FIXMATEINFORMATION') } },
+                { assert !procs.any { it.contains('SAMTOOLS_UMITAGTRANSFER') } },
+                { assert !procs.any { it.contains('PICARD_UMIMARKDUPLICATES') } },
+                { assert procs.any  { it.contains('PICARD_MARKDUPLICATES') } },
+                { assert snapshot(
+                    workflow.trace.succeeded().size(),
+                    *getStandardAssertionData(params.outdir)
+                ).match() }
+            )
+        }
+    }
+}

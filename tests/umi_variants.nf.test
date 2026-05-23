@@ -36,15 +36,19 @@ nextflow_pipeline {
     def bwamethScenarios = [
         [
             description: "Params: bwameth with UMI-aware deduplication (SE + PE)",
-            params: [ aligner: "bwameth" ]
+            params: [ aligner: "bwameth", fixmate: "samtools" ]
         ],
         [
             description: "Params: bwameth with UMI-aware deduplication and skip_trimming",
-            params: [ aligner: "bwameth", skip_trimming: true ]
+            params: [ aligner: "bwameth", fixmate: "samtools", skip_trimming: true ]
         ],
         [
             description: "Params: bwameth (bwa-mem2) with UMI-aware deduplication",
-            params: [ aligner: "bwameth", use_mem2: true ]
+            params: [ aligner: "bwameth", fixmate: "samtools", use_mem2: true ]
+        ],
+        [
+            description: "Params: bwameth | umi | fixmate=picard",
+            params: [ aligner: "bwameth", fixmate: "picard" ]
         ]
     ]
 
@@ -95,8 +99,8 @@ nextflow_pipeline {
 
     // --- bwameth UMI tests (covers bwa-mem / TAPS workflow) ---
     // PICARD_UMIMARKDUPLICATES must run; PICARD_MARKDUPLICATES must not.
-    // umi_metrics.txt is produced even when RX tags are absent (Picard logs
-    // a warning and falls back to coordinate-only deduplication in that case).
+    // --fixmate samtools is required: bwameth does not emit MC tags, which
+    // UmiAwareMarkDuplicatesWithMateCigar requires for all reads.
 
     bwamethScenarios.each { scenario ->
         test(scenario.description) {
@@ -114,6 +118,8 @@ nextflow_pipeline {
 
                 assertAll(
                     { assert workflow.success },
+                    // Exactly one fixmate tool must have run (MC tags required for UMI dedup)
+                    { assert procs.any { it.contains('SAMTOOLS_FIXMATE') || it.contains('PICARD_FIXMATEINFORMATION') } },
                     // Tag-transfer step must have run before Picard
                     { assert procs.any  { it.contains('SAMTOOLS_UMITAGTRANSFER') } },
                     // UMI-aware Picard tool must have run

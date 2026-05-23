@@ -12,9 +12,13 @@ nextflow_pipeline {
     // TAPS (bwamem aligner) deduplication path:
     //   FASTQ_ALIGN_BWA
     //   → PICARD_ADDORREPLACEREADGROUPS
+    //   → SAMTOOLS_FIXMATE  (sort -n | fixmate -m | sort; adds MC tags)
     //   → SAMTOOLS_UMITAGTRANSFER  (copies UMI from read name to RX BAM tag)
     //   → PICARD_UMIMARKDUPLICATES (UmiAwareMarkDuplicatesWithMateCigar)
     //   → SAMTOOLS_INDEX
+    //
+    // --fixmate is required when --umi is set for bwamem (bwa mem does not
+    // emit MC tags; UmiAwareMarkDuplicatesWithMateCigar crashes without them).
 
     def tapsUmiScenarios = [
         [
@@ -24,6 +28,10 @@ nextflow_pipeline {
         [
             description: "Params: bwamem | taps | umi | skip_trimming",
             params: [ skip_trimming: true ]
+        ],
+        [
+            description: "Params: bwamem | taps | umi | fixmate=picard",
+            params: [ fixmate: "picard" ]
         ]
     ]
 
@@ -44,11 +52,12 @@ nextflow_pipeline {
         test(scenario.description) {
             when {
                 params {
-                    outdir  = "${outputDir}"
-                    input   = "${projectDir}/assets/samplesheet_umi_taps.csv"
-                    aligner = "bwamem"
-                    taps    = true
-                    umi     = true
+                    outdir   = "${outputDir}"
+                    input    = "${projectDir}/assets/samplesheet_umi_taps.csv"
+                    aligner  = "bwamem"
+                    taps     = true
+                    umi      = true
+                    fixmate  = "samtools"
                     scenario.params.each { key, value -> delegate."$key" = value }
                 }
             }
@@ -58,6 +67,8 @@ nextflow_pipeline {
 
                 assertAll(
                     { assert workflow.success },
+                    // Exactly one fixmate tool must have run
+                    { assert procs.any { it.contains('SAMTOOLS_FIXMATE') || it.contains('PICARD_FIXMATEINFORMATION') } },
                     // UMI tag-transfer must have run
                     { assert procs.any  { it.contains('SAMTOOLS_UMITAGTRANSFER') } },
                     // UMI-aware Picard must have run
