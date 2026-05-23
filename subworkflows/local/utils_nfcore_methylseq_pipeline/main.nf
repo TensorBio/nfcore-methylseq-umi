@@ -192,6 +192,24 @@ workflow PIPELINE_COMPLETION {
 //
 def validateInputParameters() {
     genomeExistsError()
+    umiFixmateError()
+}
+
+//
+// Exit pipeline if --umi is set without --fixmate for aligners that require MC tags
+//
+def umiFixmateError() {
+    if (params.umi && params.aligner in ['bwamem', 'bwameth'] && !params.fixmate) {
+        def error_string = "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" +
+            "  --umi requires --fixmate when using --aligner ${params.aligner}.\n" +
+            "  Neither bwa mem nor bwameth emits MC (mate CIGAR) tags. Without them,\n" +
+            "  UmiAwareMarkDuplicatesWithMateCigar crashes with a hard SAMException.\n\n" +
+            "  Please add one of the following to your command:\n" +
+            "    --fixmate samtools   (samtools sort -n | fixmate -m | samtools sort)\n" +
+            "    --fixmate picard     (picard FixMateInformation)\n" +
+            "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+        error(error_string)
+    }
 }
 
 //

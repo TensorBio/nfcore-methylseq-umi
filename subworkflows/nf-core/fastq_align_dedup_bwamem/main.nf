@@ -1,7 +1,9 @@
 include { FASTQ_ALIGN_BWA               } from '../fastq_align_bwa/main'
 include { PICARD_ADDORREPLACEREADGROUPS } from '../../../modules/nf-core/picard/addorreplacereadgroups/main'
+include { PICARD_FIXMATEINFORMATION     } from '../../../modules/nf-core/picard/fixmateinformation/main'
 include { PICARD_MARKDUPLICATES         } from '../../../modules/nf-core/picard/markduplicates/main'
 include { PICARD_UMIMARKDUPLICATES      } from '../../../modules/nf-core/picard/umimarkduplicates/main'
+include { SAMTOOLS_FIXMATE              } from '../../../modules/nf-core/samtools/fixmate/main'
 include { SAMTOOLS_INDEX                } from '../../../modules/nf-core/samtools/index/main'
 include { SAMTOOLS_UMITAGTRANSFER       } from '../../../modules/local/samtools/umitagtransfer/main'
 
@@ -14,6 +16,7 @@ workflow FASTQ_ALIGN_DEDUP_BWAMEM {
     ch_bwamem_index      // channel: [ val(meta), [ bwamem index ] ]
     skip_deduplication   // boolean: whether to deduplicate alignments
     umi                  // boolean: whether to use UMI-aware deduplication
+    fixmate              // string:  tool to add MC tags before UMI deduplication: 'samtools', 'picard', or null (skip)
 
     main:
     ch_alignment       = channel.empty()
@@ -51,10 +54,33 @@ workflow FASTQ_ALIGN_DEDUP_BWAMEM {
 
         if (umi) {
             /*
+             * Optionally add MC (mate CIGAR) tags required by UmiAwareMarkDuplicatesWithMateCigar.
+             * bwa mem does not emit MC tags; without this step Picard silently skips all pairs
+             * (SKIP_PAIRS_WITH_NO_MATE_CIGAR=true default), making UMI deduplication a no-op.
+             * Use --fixmate samtools  →  samtools sort -n | fixmate -m | samtools sort
+             * Use --fixmate picard    →  picard FixMateInformation (sorts internally)
+             */
+            if (fixmate == 'samtools') {
+                SAMTOOLS_FIXMATE (
+                    PICARD_ADDORREPLACEREADGROUPS.out.bam
+                )
+                ch_versions = ch_versions.mix(SAMTOOLS_FIXMATE.out.versions_samtools.first())
+            } else if (fixmate == 'picard') {
+                PICARD_FIXMATEINFORMATION (
+                    PICARD_ADDORREPLACEREADGROUPS.out.bam,
+                    ch_fasta,
+                    ch_fasta_index
+                )
+                ch_versions = ch_versions.mix(PICARD_FIXMATEINFORMATION.out.versions.first())
+            }
+
+            /*
              * Transfer UMI from read name to RX BAM tag before Picard
              */
             SAMTOOLS_UMITAGTRANSFER (
-                PICARD_ADDORREPLACEREADGROUPS.out.bam
+                fixmate == 'samtools' ? SAMTOOLS_FIXMATE.out.bam :
+                fixmate == 'picard'   ? PICARD_FIXMATEINFORMATION.out.bam :
+                                        PICARD_ADDORREPLACEREADGROUPS.out.bam
             )
             ch_versions = ch_versions.mix(SAMTOOLS_UMITAGTRANSFER.out.versions.first())
 

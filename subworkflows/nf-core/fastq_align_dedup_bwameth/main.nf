@@ -1,5 +1,7 @@
 include { BWAMETH_ALIGN                                 } from '../../../modules/nf-core/bwameth/align/main'
 include { PARABRICKS_FQ2BAMMETH                         } from '../../../modules/nf-core/parabricks/fq2bammeth/main'
+include { PICARD_FIXMATEINFORMATION                     } from '../../../modules/nf-core/picard/fixmateinformation/main'
+include { SAMTOOLS_FIXMATE                              } from '../../../modules/nf-core/samtools/fixmate/main'
 include { SAMTOOLS_SORT                                 } from '../../../modules/nf-core/samtools/sort/main'
 include { SAMTOOLS_INDEX as SAMTOOLS_INDEX_ALIGNMENTS   } from '../../../modules/nf-core/samtools/index/main'
 include { SAMTOOLS_FLAGSTAT                             } from '../../../modules/nf-core/samtools/flagstat/main'
@@ -19,6 +21,7 @@ workflow FASTQ_ALIGN_DEDUP_BWAMETH {
     skip_deduplication   // boolean: whether to deduplicate alignments
     use_gpu              // boolean: whether to use GPU or CPU for bwameth alignment
     umi                  // boolean: whether to use UMI-aware deduplication
+    fixmate              // string:  tool to add MC tags before UMI deduplication: 'samtools', 'picard', or null (skip)
 
     main:
     ch_alignment         = channel.empty()
@@ -29,9 +32,11 @@ workflow FASTQ_ALIGN_DEDUP_BWAMETH {
     ch_multiqc_files     = channel.empty()
     ch_versions          = channel.empty()
 
-      /*
-        * Align with parabricks GPU enabled fq2bammeth implementation of bwameth
-        */
+    if (use_gpu) {
+        /*
+         * GPU path: Parabricks fq2bam_meth (pbrun fq2bam_meth)
+         * Requires --gpu flag and a GPU-enabled compute environment.
+         */
         PARABRICKS_FQ2BAMMETH (
             ch_reads,
             ch_fasta,
@@ -40,6 +45,18 @@ workflow FASTQ_ALIGN_DEDUP_BWAMETH {
         )
         ch_alignment = PARABRICKS_FQ2BAMMETH.out.bam
         ch_versions  = ch_versions.mix(PARABRICKS_FQ2BAMMETH.out.versions)
+    } else {
+        /*
+         * CPU path: bwameth.py
+         */
+        BWAMETH_ALIGN (
+            ch_reads,
+            ch_fasta,
+            ch_bwameth_index
+        )
+        ch_alignment = BWAMETH_ALIGN.out.bam
+        ch_versions  = ch_versions.mix(BWAMETH_ALIGN.out.versions)
+    }
 
     /*
      * Sort raw output BAM
@@ -81,12 +98,35 @@ workflow FASTQ_ALIGN_DEDUP_BWAMETH {
     if (!skip_deduplication) {
         if (umi) {
             /*
+             * Optionally add MC (mate CIGAR) tags required by UmiAwareMarkDuplicatesWithMateCigar.
+             * Neither bwameth nor Parabricks fq2bam_meth reliably emits MC tags; without this step
+             * the SAMRecordDuplicateComparator crashes with a hard SAMException during sort.
+             * Use --fixmate samtools  →  samtools sort -n | fixmate -m | samtools sort
+             * Use --fixmate picard    →  picard FixMateInformation (sorts internally)
+             */
+            if (fixmate == 'samtools') {
+                SAMTOOLS_FIXMATE (
+                    ch_alignment
+                )
+                ch_versions = ch_versions.mix(SAMTOOLS_FIXMATE.out.versions_samtools.first())
+            } else if (fixmate == 'picard') {
+                PICARD_FIXMATEINFORMATION (
+                    ch_alignment,
+                    ch_fasta,
+                    ch_fasta_index
+                )
+                ch_versions = ch_versions.mix(PICARD_FIXMATEINFORMATION.out.versions.first())
+            }
+
+            /*
             * Transfer UMI from read name (last colon-delimited field) to RX BAM tag
             * so that Picard UmiAwareMarkDuplicatesWithMateCigar can use it.
             * Read name format: readname:UMI1+UMI2  →  RX:Z:UMI1+UMI2
             */
             SAMTOOLS_UMITAGTRANSFER (
-                ch_alignment
+                fixmate == 'samtools' ? SAMTOOLS_FIXMATE.out.bam :
+                fixmate == 'picard'   ? PICARD_FIXMATEINFORMATION.out.bam :
+                                        ch_alignment
             )
             ch_versions = ch_versions.mix(SAMTOOLS_UMITAGTRANSFER.out.versions)
 

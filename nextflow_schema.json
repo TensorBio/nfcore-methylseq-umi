@@ -161,6 +161,12 @@
                     "description": "Use BWA-MEM2 algorithm for BWA-Meth indexing and alignment.",
                     "fa_icon": "fas fa-forward",
                     "help_text": "When using the BWA-Meth aligner (`--aligner bwameth`), this parameter enables the BWA-MEM2 algorithm which can provide improved performance and accuracy. The BWA-MEM2 algorithm is a drop-in replacement for BWA-MEM that is generally faster and more accurate. This option only applies when using BWA-Meth aligner."
+                },
+                "gpu": {
+                    "type": "boolean",
+                    "description": "Use GPU-accelerated alignment via Parabricks fq2bam_meth (bwameth only).",
+                    "fa_icon": "fas fa-microchip",
+                    "help_text": "When set alongside `--aligner bwameth`, replaces the CPU-based `bwameth.py` aligner with the NVIDIA Parabricks `pbrun fq2bam_meth` GPU implementation. Requires a GPU-enabled compute environment and the Parabricks Clara container. Without this flag, the standard CPU bwameth aligner is used."
                 }
             },
             "required": ["aligner"],
@@ -529,6 +535,13 @@
                     "description": "Use bcl-convert UMI format for Bismark deduplication.",
                     "help_text": "When set alongside `--umi`, adds `--bclconvert` to `deduplicate_bismark`. Use this when UMIs were embedded in read names by Illumina's bcl-convert tool, which uses a different read name format from the standard colon-delimited suffix.",
                     "fa_icon": "fas fa-barcode"
+                },
+                "fixmate": {
+                    "type": "string",
+                    "enum": ["samtools", "picard"],
+                    "description": "Add MC (mate CIGAR) tags before UMI-aware deduplication. Choose 'samtools' or 'picard'.",
+                    "help_text": "When set alongside `--umi` and `--aligner bwamem`, inserts a fixmate step after read-group assignment and before `UmiAwareMarkDuplicatesWithMateCigar`. bwa mem does not emit MC tags natively; without this step Picard silently skips all read pairs (default `SKIP_PAIRS_WITH_NO_MATE_CIGAR=true`), making UMI-aware deduplication a no-op.\n\n- `samtools`: runs `samtools sort -n | samtools fixmate -m | samtools sort` in a single pipe.\n- `picard`: runs `picard FixMateInformation --SORT_ORDER coordinate`, which handles mate-pairing and re-sorting internally.",
+                    "fa_icon": "fas fa-wrench"
                 },
                 "skip_fastqc": {
                     "type": "boolean",

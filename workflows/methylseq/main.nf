@@ -162,8 +162,9 @@ workflow METHYLSEQ {
             ch_bwameth_inputs.fasta_index,
             ch_bwameth_inputs.bwameth_index,
             params.skip_deduplication || params.rrbs,
-            workflow.profile.tokenize(',').intersect(['gpu']).size() >= 1,
-            params.umi
+            params.gpu,
+            params.umi,
+            params.fixmate
         )
         ch_bam         = FASTQ_ALIGN_DEDUP_BWAMETH.out.bam
         ch_bai         = FASTQ_ALIGN_DEDUP_BWAMETH.out.bai
@@ -191,7 +192,8 @@ workflow METHYLSEQ {
             ch_bwamem_inputs.fasta_index,
             ch_bwamem_inputs.bwamem_index,
             params.skip_deduplication,
-            params.umi
+            params.umi,
+            params.fixmate
         )
 
         ch_bam         = FASTQ_ALIGN_DEDUP_BWAMEM.out.bam
